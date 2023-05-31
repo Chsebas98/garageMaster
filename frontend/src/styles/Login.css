@@ -1,0 +1,31 @@
+#sidebar{
+	height: 100vh;
+
+}
+.bg-container-custom{
+	background-color: rgb(219, 219, 219);
+}
+.bg-custom{
+	background: linear-gradient(to right, #FE5B3B, #FF8C6C);
+}
+.btn-custom{
+	background-color: #FE5B3B;
+	color:white
+}
+.btn-custom:hover{
+	background: linear-gradient(to left, #D8441F, #FE5B3B);
+}
+.btn-back:hover{
+	background: linear-gradient(to right, #D8441F, #FE5B3B);
+
+}
+.smaller-input{
+	width: 200px;
+}
+.btn-back{
+	padding: 10px 20px;
+	background: #fe5b3b;
+	color: #fff;
+	border-radius: .5rem;
+}
+
