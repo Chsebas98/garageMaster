@@ -9,23 +9,55 @@
 	background: linear-gradient(to right, #FE5B3B, #FF8C6C);
 }
 .btn-custom{
-	background-color: #FE5B3B;
-	color:white
+	width: 150px;
+	background-color: #D8441F;
+	border: none;
+	text-decoration: none;
+	height: 49px;
+	border-radius: 49px;
+	color: #fff;
+	text-transform: uppercase;
+	font-weight: 600;
+	margin: 10px 0;
+	cursor: pointer;
+	transition: 0.5s;
 }
 .btn-custom:hover{
 	background: linear-gradient(to left, #D8441F, #FE5B3B);
+	transform: scale(1.1);
 }
 .btn-back:hover{
 	background: linear-gradient(to right, #D8441F, #FE5B3B);
+	color:#212528;
+	transform: scale(1.1);
 
 }
 .smaller-input{
-	width: 200px;
+	max-width: 380px;
+	width: 400px;
+	background-color: #f0f0f0;
+	margin: 10px 0;
+	height: 55px;
+	border-radius: 55px;
+	display: grid;
+	grid-template-columns: 15% 85%;
+	padding: 0 0.4rem;
+	position: relative;
 }
 .btn-back{
-	padding: 10px 20px;
-	background: #fe5b3b;
+	width: 190px;
+	background-color: #D8441F;
+	border: none;
+	text-decoration: none;
+	padding: 15px 25px;
+	height: 49px;
+	border-radius: 49px;
 	color: #fff;
-	border-radius: .5rem;
+	text-transform: uppercase;
+	font-weight: 600;
+	margin: 10px 0;
+	cursor: pointer;
+	transition: 0.5s;
 }
+
 
