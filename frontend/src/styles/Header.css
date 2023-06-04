@@ -24,6 +24,7 @@ header nav a {
 .navbar-opt li {
     position: relative;
     list-style: none;
+    margin-top: 4px;
 }
 .navbar-opt a {
     text-decoration: none;
@@ -32,12 +33,10 @@ header nav a {
     color: #444;
     font-weight: 500;
 }
-.navbar-login {
+.navbar-btn-login {
     padding: 10px 20px;
     background: #fe5b3b;
     color: #fff;
     border-radius: .5rem;
-}
-.navbar-login:hover {
-    transform: scale(1.1);
+    margin-bottom: 3px;
 }

@@ -2,31 +2,46 @@ import { Link } from "react-router-dom";
 import "../styles/Header.css";
 
 export const Header = () => (
-	<header>
-		<nav className="navbar px-2">
-			<a href="" className="navbar-logo">
-				Garage Master
-			</a>
-			<ul className="navbar-opt">
-				<li>
-					<a href="">Home</a>
-				</li>
-				<li>
-					<a href="">About</a>
-				</li>
-				<li>
-					<a href="">Cars</a>
-				</li>
-				<li>
-					<a href="">Services</a>
-				</li>
-				<li>
-					<a href="">Reviews</a>
-				</li>
-			</ul>
-			<Link to="/login" className="navbar-login">
-				Login
-			</Link>
-		</nav>
-	</header>
+  <header>
+    <nav className="navbar navbar-expand-lg bg-body-tertiary px-2">
+      <Link to="" className="navbar-logo">
+        Garage Master
+      </Link>
+      <div className="container-fluid">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarTogglerDemo01"
+          aria-controls="navbarTogglerDemo01"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <ul className="navbar-opt navbar-nav me-auto mb-3 mt-2">
+            <li>
+              <Link to="">Home</Link>
+            </li>
+            <li>
+              <Link to="">About</Link>
+            </li>
+            <li>
+              <Link to="">Cars</Link>
+            </li>
+            <li>
+              <Link to="">Services</Link>
+            </li>
+            <li>
+              <Link to="">Reviews</Link>
+            </li>
+          </ul>
+          <Link to="/login" className="navbar-btn-login">
+            Login
+          </Link>
+        </div>
+      </div>
+    </nav>
+  </header>
 );
