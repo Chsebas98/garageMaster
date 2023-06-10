@@ -2,7 +2,7 @@ import { Header } from "../components/Header";
 import logo from "../assets/logo.png";
 import "../styles/Home.css";
 
-export const Home = () => {
+export const Start = () => {
 	return (
 		<>
 			<Header />
