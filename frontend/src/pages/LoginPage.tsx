@@ -1,8 +1,22 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import "../styles/Login.css";
+import { useState, ChangeEvent, FormEvent } from "react";
 
 export const LoginPage = () => {
+	const [correo, setCorreo] = useState("");
+	const [password, setPassword] = useState("");
+
+	//password
+	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setPassword(event.target.value);
+	};
+
+	//Logueo
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+	};
+
 	return (
 		<>
 			<div className="container-fluid bg-container-custom">
@@ -28,7 +42,10 @@ export const LoginPage = () => {
 					<div className="col-sm-8 p-4 d-flex align-items-center justify-content-center">
 						<div className="container">
 							<div className="text-center"></div>
-							<form className="d-flex flex-column align-items-center">
+							<form
+								className="d-flex flex-column align-items-center"
+								onSubmit={handleSubmit}
+							>
 								<div className="form-group py-2 my-2">
 									<label htmlFor="password" className="fw-bold">
 										Correo Electrónico
@@ -38,6 +55,8 @@ export const LoginPage = () => {
 										className="form-control smaller-input"
 										id="email"
 										placeholder="Ingrese el correo electrónico "
+										value={correo}
+										onChange={(event) => setCorreo(event.target.value)}
 									/>
 								</div>
 								<div className="form-group py-2 my-2">
@@ -49,11 +68,15 @@ export const LoginPage = () => {
 										className="form-control smaller-input"
 										id="password"
 										placeholder="Password"
+										value={password}
+										onChange={handlePasswordChange}
 									/>
 								</div>
-								<button type="submit" className="btn btn-custom my-2">
-									Iniciar Sesión
-								</button>
+								<Link to={"/home"}>
+									<button type="submit" className="btn btn-custom my-2">
+										Iniciar Sesión
+									</button>
+								</Link>
 							</form>
 						</div>
 					</div>
