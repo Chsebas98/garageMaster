@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { HeaderProps } from "../interfaces/HeaderProps";
+import { HeaderProps } from "../interfaces/HeaderProps.interface";
 import "../styles/Header.css";
 
 export const Header = ({ username }: HeaderProps) => {
@@ -30,12 +30,17 @@ export const Header = ({ username }: HeaderProps) => {
 						<a href="">Reviews</a>
 					</li>
 				</ul>
-				{!usernameState ? (
-					<Link to="/login" className="navbar-login">
+				{!usernameState || usernameState == "" ? (
+					<Link to="/login" className="navbar-btn-login">
 						Login
 					</Link>
 				) : (
-					<h4>Bienvenido {username}</h4>
+					<div className="d-flex align-items-baseline">
+						<h5 className="me-2">Bienvenido {username}</h5>
+						<Link to="/start">
+							<i className="fa-solid fa-arrow-right-from-bracket"></i>
+						</Link>
+					</div>
 				)}
 			</nav>
 		</header>

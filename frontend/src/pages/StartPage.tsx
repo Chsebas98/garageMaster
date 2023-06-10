@@ -1,6 +1,6 @@
 import { Header } from "../components/Header";
 import logo from "../assets/logo.png";
-import "../styles/Home.css";
+import "../styles/Start.css";
 
 export const Start = () => {
 	return (

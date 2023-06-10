@@ -39,4 +39,8 @@ header nav a {
     color: #fff;
     border-radius: .5rem;
     margin-bottom: 3px;
+    transition: 0.5s;
+}
+.navbar-btn-login:hover{
+    transform: scale(1.1);
 }
