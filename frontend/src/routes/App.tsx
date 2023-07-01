@@ -3,28 +3,31 @@ import { Start } from "../pages/StartPage";
 import { Home } from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
-import IngresoPage from "../pages/IngresoPage";
-import HistorialPage from "../pages/HistorialPage";
-import RevisionPage from "../pages/RevisionPage";
+import { IncomeCarPage } from "../pages/IncomeCarPage";
+import { VehicleHistoryPage } from "../pages/VehicleHistoryPage";
+import { VehicleReviewPage } from "../pages/VehicleReviewPage";
+import { Layout } from "../containers/Layout";
 
 export const App = () => {
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/register" element={<RegisterPage />} />
-				<Route path="/start" element={<Start />} />
-				<Route path="/" element={<Start />} />
-				<Route path="/home" element={<Home />} />
-				<Route path="/*" element={<Outlet />} />
-				{/* Páginas */}
+  return (
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/start" element={<Start />} />
+          <Route path="/" element={<Start />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/*" element={<Outlet />} />
+          {/* Páginas */}
 
-				<Route path="/ingreso" element={<IngresoPage />} />
-				<Route path="/historial" element={<HistorialPage />} />
-				<Route path="/revision" element={<RevisionPage />} />
-			</Routes>
-		</BrowserRouter>
-	);
+          <Route path="/ingreso" element={<IncomeCarPage />} />
+          <Route path="/historial" element={<VehicleHistoryPage />} />
+          <Route path="/revision" element={<VehicleReviewPage />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
+  );
 };
 /* 
 createBrowserRouter([

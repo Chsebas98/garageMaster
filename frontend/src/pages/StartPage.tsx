@@ -1,11 +1,9 @@
-import { Header } from "../components/Header";
 import logo from "../assets/logo.png";
 import "../styles/Start.css";
 
 export const Start = () => {
 	return (
 		<>
-			<Header />
 			<section className="home">
 				<div className="home-text">
 					<h1>Looking for a car</h1>
