@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "revisions",
+  "info": {
+    "singularName": "revision",
+    "pluralName": "revisions",
+    "displayName": "Revision",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "detalles_revision": {
+      "type": "text"
+    },
+    "fecha_salida": {
+      "type": "date"
+    },
+    "tiempo_reparacion": {
+      "type": "string"
+    },
+    "peizas_cambiadas": {
+      "type": "text"
+    },
+    "extras": {
+      "type": "text"
+    },
+    "detalles_extra": {
+      "type": "text"
+    },
+    "precio": {
+      "type": "float"
+    },
+    "vehiculos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::vehiculo.vehiculo"
+    },
+    "mecanicos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::mecanico.mecanico"
+    }
+  }
+}

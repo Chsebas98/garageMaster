@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehiculos",
+  "info": {
+    "singularName": "vehiculo",
+    "pluralName": "vehiculos",
+    "displayName": "Vehiculo",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "placa": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    },
+    "kilometraje": {
+      "type": "integer"
+    },
+    "anio": {
+      "type": "integer"
+    },
+    "marca": {
+      "type": "string"
+    },
+    "modelo": {
+      "type": "string"
+    },
+    "combustible": {
+      "type": "string"
+    },
+    "fecha_ingreso": {
+      "type": "date"
+    },
+    "hora_ingreso": {
+      "type": "time"
+    },
+    "motivo_ingreso": {
+      "type": "text"
+    },
+    "clientes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cliente.cliente"
+    }
+  }
+}

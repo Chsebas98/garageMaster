@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "clientes",
+  "collectionName": "mecanicos",
   "info": {
-    "singularName": "cliente",
-    "pluralName": "clientes",
-    "displayName": "Cliente",
+    "singularName": "mecanico",
+    "pluralName": "mecanicos",
+    "displayName": "Mecanico",
     "description": ""
   },
   "options": {
@@ -24,11 +24,9 @@
       "type": "email",
       "required": true
     },
-    "telefono": {
-      "type": "string"
-    },
-    "direccion": {
-      "type": "string"
+    "password": {
+      "type": "password",
+      "required": true
     }
   }
 }
