@@ -1,20 +1,37 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import "../styles/Login.css";
 import { useState, ChangeEvent, FormEvent } from "react";
+import { UserLogin } from "../interfaces/login";
+import { useAuth } from "../hooks/useAuth";
 
 export const LoginPage = () => {
-	const [correo, setCorreo] = useState("");
-	const [password, setPassword] = useState("");
+	const [userLogin, setUserLOgin] = useState<UserLogin>({
+		identifier: "",
+		password: ""
+	});
 
-	//password
-	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setPassword(event.target.value);
+	const { login } = useAuth();
+	const navigate = useNavigate();
+
+	
+	const UserLoginChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setUserLOgin({
+			...userLogin,
+			[event.target.name]: event.target.value
+		});
 	};
 
 	//Logueo
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		if([userLogin.identifier, userLogin.password].includes("")){
+			alert("Todos los campos son obligatorios");
+			return;
+		}
+		login(userLogin);
+		navigate("/home", {replace: true});
+		
 	};
 
 	return (
@@ -47,16 +64,16 @@ export const LoginPage = () => {
 								onSubmit={handleSubmit}
 							>
 								<div className="form-group py-2 my-2">
-									<label htmlFor="password" className="fw-bold">
+									<label htmlFor="identifier" className="fw-bold">
 										Correo Electrónico
 									</label>
 									<input
 										type="email"
 										className="form-control smaller-input"
 										id="email"
+										name="identifier"
 										placeholder="Ingrese el correo electrónico "
-										value={correo}
-										onChange={(event) => setCorreo(event.target.value)}
+										onChange={UserLoginChange}
 									/>
 								</div>
 								<div className="form-group py-2 my-2">
@@ -67,16 +84,16 @@ export const LoginPage = () => {
 										type="password"
 										className="form-control smaller-input"
 										id="password"
+										name="password"
 										placeholder="Password"
-										value={password}
-										onChange={handlePasswordChange}
+										onChange={UserLoginChange}
 									/>
 								</div>
-								<Link to={"/home"}>
+								
 									<button type="submit" className="btn btn-custom my-2">
 										Iniciar Sesión
 									</button>
-								</Link>
+								
 							</form>
 						</div>
 					</div>
