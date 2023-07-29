@@ -8,46 +8,57 @@ import { VehicleHistoryPage } from "../pages/VehicleHistoryPage";
 import { VehicleReviewPage } from "../pages/VehicleReviewPage";
 import { Layout } from "../containers/Layout";
 import { AuthRoute } from "./AuthRoute";
+import { AuthProvider } from "../context/AuthProvider";
 
 export const App = () => {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/start" element={<Start />} />
-          <Route path="/" element={<Start />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/*" element={<Outlet />} />
-          {/* Páginas */}
+      <AuthProvider>
+        <Layout>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/start" element={<Start />} />
+            <Route path="/" element={<Start />} />
 
-          <Route
-            path="/ingreso"
-            element={
-              <AuthRoute>
-                <IncomeCarPage />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="/historial"
-            element={
-              <AuthRoute>
-                <VehicleHistoryPage />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="/revision"
-            element={
-              <AuthRoute>
-                <VehicleReviewPage />
-              </AuthRoute>
-            }
-          />
-        </Routes>
-      </Layout>
+            <Route path="/*" element={<Outlet />} />
+            {/* Páginas */}
+
+            <Route
+              path="/home"
+              element={
+                <AuthRoute>
+                  <Home />
+                </AuthRoute>
+              }
+            />
+            <Route
+              path="/ingreso"
+              element={
+                <AuthRoute>
+                  <IncomeCarPage />
+                </AuthRoute>
+              }
+            />
+            <Route
+              path="/historial"
+              element={
+                <AuthRoute>
+                  <VehicleHistoryPage />
+                </AuthRoute>
+              }
+            />
+            <Route
+              path="/revision"
+              element={
+                <AuthRoute>
+                  <VehicleReviewPage />
+                </AuthRoute>
+              }
+            />
+          </Routes>
+        </Layout>
+      </AuthProvider>
     </BrowserRouter>
   );
 };

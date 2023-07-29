@@ -29,8 +29,8 @@ export const LoginPage = () => {
 			alert("Todos los campos son obligatorios");
 			return;
 		}
-		login(userLogin);
-		navigate("/home", {replace: true});
+		login(userLogin.identifier, userLogin.password);
+		
 		
 	};
 
@@ -90,7 +90,7 @@ export const LoginPage = () => {
 									/>
 								</div>
 								
-									<button type="submit" className="btn btn-custom my-2">
+									<button className="btn btn-custom my-2">
 										Iniciar Sesión
 									</button>
 								
