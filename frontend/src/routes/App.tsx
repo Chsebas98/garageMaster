@@ -7,6 +7,7 @@ import { IncomeCarPage } from "../pages/IncomeCarPage";
 import { VehicleHistoryPage } from "../pages/VehicleHistoryPage";
 import { VehicleReviewPage } from "../pages/VehicleReviewPage";
 import { Layout } from "../containers/Layout";
+import { AuthRoute } from "./AuthRoute";
 
 export const App = () => {
   return (
@@ -21,47 +22,32 @@ export const App = () => {
           <Route path="/*" element={<Outlet />} />
           {/* Páginas */}
 
-          <Route path="/ingreso" element={<IncomeCarPage />} />
-          <Route path="/historial" element={<VehicleHistoryPage />} />
-          <Route path="/revision" element={<VehicleReviewPage />} />
+          <Route
+            path="/ingreso"
+            element={
+              <AuthRoute>
+                <IncomeCarPage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/historial"
+            element={
+              <AuthRoute>
+                <VehicleHistoryPage />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/revision"
+            element={
+              <AuthRoute>
+                <VehicleReviewPage />
+              </AuthRoute>
+            }
+          />
         </Routes>
       </Layout>
     </BrowserRouter>
   );
 };
-/* 
-createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    children: [
-      {
-        path: "contact",
-        element: <Contact />,
-      },
-      {
-        path: "dashboard",
-        element: <Dashboard />,
-        loader: ({ request }) =>
-          fetch("/api/dashboard.json", {
-            signal: request.signal,
-          }),
-      },
-      {
-        element: <AuthLayout />,
-        children: [
-          {
-            path: "login",
-            element: <Login />,
-            loader: redirectIfUser,
-          },
-          {
-            path: "logout",
-            action: logoutUser,
-          },
-        ],
-      },
-    ],
-  },
-]);
- */

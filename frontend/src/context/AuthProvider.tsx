@@ -15,9 +15,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [tokenApi, setTokenApi] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
-  const regsiter = async (user:UserRegister) => {
-    
-  }
 
   const login = async ({identifier, password}:UserLogin) => {
    try {
@@ -34,26 +31,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
    }
   };
 
-  console.log(tokenApi);
-
-
-  useEffect(() => {
-    if (tokenApi) {
-      axios.defaults.headers.common["Authorization"] = "Bear" + tokenApi;
-      localStorage.setItem("token", tokenApi);
-    } else {
-      delete axios.defaults.headers.common["Authorization"];
-      localStorage.removeItem("token");
-    }
-  }, [tokenApi]);
-  const contextValue = useMemo(
-    () => ({
-      tokenApi,
-      login,
-    }),
-    [tokenApi]
-  );
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{login, tokenApi}}>{children}</AuthContext.Provider>
   );
 };
