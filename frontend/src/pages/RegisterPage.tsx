@@ -1,7 +1,29 @@
 import { Link } from "react-router-dom";
 import "../styles/Register.css";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { UserRegister } from "../interfaces/register";
 
 export const RegisterPage = () => {
+  const [user, setUser] = useState<UserRegister>({
+    username: "",
+    email: "",
+    password: ""
+  });
+
+  const registerChange = (event:ChangeEvent<HTMLInputElement>) => {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value
+    });
+  }
+
+  const registerSubmit = (event:FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if([user.username, user.email, user.password].includes("")) {
+      alert("Todos los campos son obligatorios");
+      return
+    }
+  }
   return (
     <div className="container-register">
       <div className="forms-container">
