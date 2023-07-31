@@ -29,28 +29,29 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (axios.isAxiosError(error)) {
         setMessage(error.response?.data.message);
       }
-      setMessage("");
+      
     }
   };
 
   const register = async ({ username, email, password }: UserRegister) => {
     try {
+      setMessage("");
       await axiosClient.post<UserRegister>("/api/auth/local/register", {
         username,
         email,
         password,
       });
+      console.log(message);
       navigate("/login");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data.message);
+        setMessage(error.response?.data.error.message);
       }
-      setMessage("");
-    }
+    } 
   };
 
   return (
-    <AuthContext.Provider value={{ login, register, tokenApi }}>
+    <AuthContext.Provider value={{ login, register, tokenApi, message, setMessage }}>
       {children}
     </AuthContext.Provider>
   );
