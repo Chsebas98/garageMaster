@@ -13,7 +13,6 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [tokenApi, setTokenApi] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -27,31 +26,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       navigate("/home");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data.message);
+        alert(error.response?.data.error.message);
       }
-      
     }
   };
 
-  const register = async ({ username, email, password }: UserRegister) => {
+  const register = async ({
+    username,
+    email,
+    password,
+  }: UserRegister): Promise<void> => {
     try {
-      setMessage("");
       await axiosClient.post<UserRegister>("/api/auth/local/register", {
         username,
         email,
         password,
       });
-      console.log(message);
       navigate("/login");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data.error.message);
+        alert(error.response?.data.error.message);
       }
-    } 
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ login, register, tokenApi, message, setMessage }}>
+    <AuthContext.Provider value={{ login, register, tokenApi }}>
       {children}
     </AuthContext.Provider>
   );

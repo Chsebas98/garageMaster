@@ -11,7 +11,7 @@ export const RegisterPage = () => {
     password: "",
   });
 
-  const { register, message, setMessage } = useAuth();
+  const { register } = useAuth();
 
   const handleRegisterChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUser({
@@ -26,19 +26,7 @@ export const RegisterPage = () => {
       alert("Todos los campos son obligatorios");
       return;
     }
-    console.log(message)
     register(user);
-
-    
-
-    if(message !== "") {
-      alert(message);
-      return
-    }
-    //setMessage("");
-    
-
-    
   };
   return (
     <div className="container-register">
@@ -77,11 +65,9 @@ export const RegisterPage = () => {
                 onChange={handleRegisterChange}
               />
             </div>
-            <input
-              type="submit"
-              value="Registrar"
-              className="btn-login solid"
-            />
+            <button type="submit" className="btn-login solid">
+              Registrar
+            </button>
           </form>
         </div>
       </div>
