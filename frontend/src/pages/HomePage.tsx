@@ -25,6 +25,13 @@ export const Home = () => {
             dir={"/revision"}
           />
         </div>
+        <div className="row my-3">
+          <CardOptions
+            title={"Registro de clientes"}
+            icon={"fa-solid fa-circle-right fa-2xl"}
+            dir={"/client"}
+          />
+        </div>
       </div>
     </>
   );

@@ -1,11 +1,11 @@
 import { ReactNode, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import axios from "axios";
-import { AuthResponse } from "../interfaces/authResponse";
-import { UserRegister } from "../interfaces/register";
-import { UserLogin } from "../interfaces/login";
+import { AuthResponse } from "../../interfaces/authResponse";
+import { UserRegister } from "../../interfaces/register";
+import { UserLogin } from "../../interfaces/login";
 import { useNavigate } from "react-router-dom";
-import { axiosClient } from "../apis";
+import { axiosClient } from "../../apis";
 
 interface AuthProviderProps {
   children: ReactNode;
