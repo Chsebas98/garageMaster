@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { RegisterClient } from "../interfaces/registerClient";
+import { RegisterClient } from "../interfaces/client";
 import { useClient } from "../hooks/useClient";
 
 export const RegisterClientPage = () => {

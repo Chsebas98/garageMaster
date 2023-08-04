@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { RegisterClient } from "../../interfaces/registerClient";
+import { ClientResponse, Datum, RegisterClient } from "../../interfaces/client";
 
 interface ClientContextProps {
   registerClient: ({
@@ -9,6 +9,7 @@ interface ClientContextProps {
     telefono,
     direccion,
   }: RegisterClient) => Promise<void>
+  clients: Datum[]
 }
 
 export const ClientContext = createContext({} as ClientContextProps);

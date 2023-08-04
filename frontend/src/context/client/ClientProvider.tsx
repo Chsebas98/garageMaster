@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { ClientContext } from "./ClientContext";
-import { RegisterClient } from "../../interfaces/registerClient";
+import { ClientResponse, Datum, RegisterClient } from "../../interfaces/client";
 import { axiosClient } from "../../apis";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -10,11 +10,12 @@ interface ClientProviderProps {
 }
 
 export const ClientProvider = ({ children }: ClientProviderProps) => {
+  const [clients, setClients] = useState<Datum[]>([]);
 
   const { tokenApi } = useAuth();
 
   const navigate = useNavigate();
-  
+
   const registerClient = async ({
     nombre,
     apellido,
@@ -34,15 +35,34 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
             direccion,
           },
         },
-        { headers: { "Authorization": `Bearer ${tokenApi}` } }
+        { headers: { Authorization: `Bearer ${tokenApi}` } }
       );
       navigate("/home");
     } catch (error) {
       console.error(error);
     }
   };
+
+  const getClients = async (): Promise<void> => {
+    try {
+      const { data } = await axiosClient.get<Datum[]>(
+        "/api/clientes",
+        { headers: { Authorization: `Bearer ${tokenApi}` } }
+      );
+      setClients(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (tokenApi) {
+      getClients();
+    }
+    
+  }, [tokenApi]);
   return (
-    <ClientContext.Provider value={{ registerClient }}>
+    <ClientContext.Provider value={{ registerClient, clients }}>
       {children}
     </ClientContext.Provider>
   );
