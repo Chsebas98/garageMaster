@@ -25,6 +25,7 @@ export const App = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/start" element={<Start />} />
+               
                 <Route path="/" element={<Start />} />
                 <Route path="/*" element={<Outlet />} />
                 {/* Páginas */}
@@ -53,7 +54,7 @@ export const App = () => {
                     </AuthRoute>
                   }
                 />
-                <Route
+                *<Route
                   path="/vehicle"
                   element={
                     <AuthRoute>
