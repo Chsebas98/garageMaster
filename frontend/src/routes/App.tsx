@@ -3,7 +3,6 @@ import { Start } from "../pages/StartPage";
 import { Home } from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
-import { IncomeCarPage } from "../pages/IncomeCarPage";
 import { VehicleHistoryPage } from "../pages/VehicleHistoryPage";
 import { VehicleReviewPage } from "../pages/VehicleReviewPage";
 import { Layout } from "../containers/Layout";
@@ -35,14 +34,6 @@ export const App = () => {
                   element={
                     <AuthRoute>
                       <Home />
-                    </AuthRoute>
-                  }
-                />
-                <Route
-                  path="/ingreso"
-                  element={
-                    <AuthRoute>
-                      <IncomeCarPage />
                     </AuthRoute>
                   }
                 />

@@ -1,7 +1,23 @@
+import { FormEvent, useState } from "react";
+import { useVehicle } from "../hooks/useVehicle";
+
 export const VehicleInformation = () => {
+  const [searchPlate, setSearchPlate] = useState<string>("");
+  const { searchForPlate } = useVehicle();
+
+  console.log(searchPlate);
+
+  const handleSearchSubmit = (event:FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if(searchPlate === "") {
+      alert("El campo es obligatorio");
+      return
+    }
+    searchForPlate(searchPlate);
+  }
   return (
     <>
-      <form className="mb-4">
+      <form className="mb-4" onSubmit={handleSearchSubmit}>
         <div className="row g-3 align-items-center">
           <div className="col-auto">
             <label htmlFor="inputPassword6" className="col-form-label">
@@ -10,9 +26,10 @@ export const VehicleInformation = () => {
           </div>
           <div className="col-auto">
             <input
-              type="password"
+              type="text"
               id="inputPassword6"
               className="form-control"
+              onChange={(event) => setSearchPlate(event.target.value)}
             />
           </div>
           <div className="col-auto">
@@ -117,10 +134,16 @@ export const VehicleInformation = () => {
       </div>
       <div className="row">
         <div className="col-auto">
-          <span>Extras</span>
+          <span>Dueño</span>
         </div>
         <div className="col-auto">
-          <p>Sin novedad</p>
+        <input
+            type="text"
+            id="inputPassword6"
+            className="form-control"
+            defaultValue="Robinson Ruilova"
+            disabled
+          />
         </div>
       </div>
     </>

@@ -14,7 +14,8 @@ interface VehicleContextProps {
     hora_ingreso,
     motivo_ingreso,
     clientes,
-  }: RegisterVehicle) => Promise<void>;
+  }: RegisterVehicle) => Promise<void>
+  searchForPlate: (plate:string) => void
 }
 
 export const VehicleContext = createContext({} as VehicleContextProps);
