@@ -6,6 +6,7 @@ import { UserRegister } from "../../interfaces/register";
 import { UserLogin } from "../../interfaces/login";
 import { useNavigate } from "react-router-dom";
 import { axiosClient } from "../../apis";
+import swal from "sweetalert";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -26,7 +27,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       navigate("/home");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.error.message);
+        //alert(error.response?.data.error.message);
+        swal(`${error.response?.data.error.message}!`, "","error");
       }
     }
   };
@@ -45,7 +47,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       navigate("/login");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response?.data.error.message);
+        //alert(error.response?.data.error.message);
+        swal(`${error.response?.data.error.message}!`,"" ,"error");
       }
     }
   };

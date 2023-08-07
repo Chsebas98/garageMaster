@@ -4,6 +4,7 @@ import { ClientResponse, Datum, RegisterClient } from "../../interfaces/client";
 import { axiosClient } from "../../apis";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 interface ClientProviderProps {
   children: ReactNode;
@@ -37,6 +38,7 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
         },
         { headers: { Authorization: `Bearer ${tokenApi}` } }
       );
+      swal("Cliente registrado!", "", "success");
       navigate("/home");
     } catch (error) {
       console.error(error);
@@ -45,7 +47,7 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
 
   const getClients = async (): Promise<void> => {
     try {
-      const { data } = await axiosClient.get<Datum[]>(
+      const { data } = await axiosClient.get<ClientResponse>(
         "/api/clientes",
         { headers: { Authorization: `Bearer ${tokenApi}` } }
       );

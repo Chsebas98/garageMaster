@@ -1,8 +1,23 @@
+import { useState } from "react";
 import { useClient } from "../hooks/useClient";
+import { RegisterVehicle } from "../interfaces/vehicle";
 
 export const VehicleRegisterPage = () => {
+
+  const [vehicle, setVehicle] = useState<RegisterVehicle>({
+    placa: "",
+    color: "",
+    kilometraje: 0,
+    anio: 0,
+    marca: "",
+    combustible: "",
+    fecha_ingreso: "",
+    hora_ingreso: "",
+    motivo_ingreso: "",
+    clients: []
+  });
+
   const { clients } = useClient();
-  console.log(clients);
 
   return (
     <div className="container-register">
@@ -138,7 +153,7 @@ export const VehicleRegisterPage = () => {
               {clients.map((client) => (
                 <option
                   key={client.id}
-                  value={client.attributes.nombre + client.attributes.apellido}
+                  value={client.id}
                 >
                   {client.attributes.nombre} {client.attributes.apellido}
                 </option>
