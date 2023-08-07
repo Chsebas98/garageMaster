@@ -13,7 +13,8 @@
   "pluginOptions": {},
   "attributes": {
     "placa": {
-      "type": "string"
+      "type": "string",
+      "unique": true
     },
     "color": {
       "type": "string"
