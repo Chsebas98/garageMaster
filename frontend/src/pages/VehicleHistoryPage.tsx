@@ -1,9 +1,9 @@
-import { VehicleInformation } from "../components/VehicleInformation";
+import { SearchVehicle } from "../components/SearchPlate";
 
 export const VehicleHistoryPage = () => {
   return (
     <div className="container mt-5">
-      <VehicleInformation />
+      <SearchVehicle />
       <div>
         <h3>Historial de revisiones del vehículo</h3>
         <div className="table-responsive">

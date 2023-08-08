@@ -1,42 +1,14 @@
-import { FormEvent, useState } from "react";
-import { useVehicle } from "../hooks/useVehicle";
+import { VehicleWithClientsDatum } from "../interfaces/vehicle";
 
-export const VehicleInformation = () => {
-  const [searchPlate, setSearchPlate] = useState<string>("");
-  const { searchForPlate, searchResultVehicle } = useVehicle();
+interface Props {
+  searchResultVehicle: VehicleWithClientsDatum;
+}
 
-  const handleSearchSubmit = (event:FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if(searchPlate === "") {
-      alert("El campo es obligatorio");
-      return
-    }
-    searchForPlate(searchPlate);
-  }
+export const VehicleInformation = ({ searchResultVehicle }: Props) => {
+  console.log(searchResultVehicle);
+
   return (
     <>
-      <form className="mb-4" onSubmit={handleSearchSubmit}>
-        <div className="row g-3 align-items-center">
-          <div className="col-auto">
-            <label htmlFor="inputPassword6" className="col-form-label">
-              Búsqueda por placa
-            </label>
-          </div>
-          <div className="col-auto">
-            <input
-              type="text"
-              id="inputPassword6"
-              className="form-control"
-              onChange={(event) => setSearchPlate(event.target.value)}
-            />
-          </div>
-          <div className="col-auto">
-            <button className="btn btn-primary" type="submit">
-              Buscar
-            </button>
-          </div>
-        </div>
-      </form>
       <div className="row g-4">
         <h3>Información del vehículo</h3>
         <div className="col-md-3 mb-3">
@@ -49,7 +21,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
-            defaultValue={searchResultVehicle.placa}
+            value={searchResultVehicle.attributes.placa}
             disabled
           />
         </div>
@@ -63,6 +35,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.anio}
             disabled
           />
         </div>
@@ -78,6 +51,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.kilometraje}
             disabled
           />
         </div>
@@ -91,6 +65,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.color}
             disabled
           />
         </div>
@@ -106,6 +81,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.marca}
             disabled
           />
         </div>
@@ -119,6 +95,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.combustible}
             disabled
           />
         </div>
@@ -128,7 +105,7 @@ export const VehicleInformation = () => {
           <span>Modelo</span>
         </div>
         <div className="col-auto">
-          <p>lslsl</p>
+          <p>{searchResultVehicle.attributes.modelo}</p>
         </div>
       </div>
       <div className="row">
@@ -136,11 +113,11 @@ export const VehicleInformation = () => {
           <span>Dueño</span>
         </div>
         <div className="col-auto">
-        <input
+          <input
             type="text"
             id="inputPassword6"
             className="form-control"
-            defaultValue="Robinson Ruilova"
+            defaultValue={`${searchResultVehicle.attributes.clientes.data[0].attributes.nombre} ${searchResultVehicle.attributes.clientes.data[0].attributes.apellido}`}
             disabled
           />
         </div>
