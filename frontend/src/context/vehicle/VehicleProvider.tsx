@@ -16,9 +16,8 @@ interface VehicleProviderProps {
 }
 
 export const VehicleProvider = ({ children }: VehicleProviderProps) => {
-  const [vehicleInformation, setVehicleInformation] = useState<
-    VehicleWithClientsDatum[]
-  >([]);
+  const [vehicleInformation, setVehicleInformation] = useState<VehicleWithClientsDatum[]>([]);
+  const [searchResultVehicle, setsearchResultVehicle] = useState<VehicleWithClientsDatum>({} as VehicleWithClientsDatum);
   const navigate = useNavigate();
   const { tokenApi } = useAuth();
 
@@ -62,7 +61,7 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     }
   };
 
-  const vechicleInformationWithClients = async (): Promise<void> => {
+  const getVehicleInformationWithClients = async (): Promise<void> => {
     try {
       const { data } = await axiosClient.get<VehicleWithClients>(
         "api/vehiculos?populate=*",
@@ -77,20 +76,20 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
 
   useEffect(() => {
     if(tokenApi) {
-      vechicleInformationWithClients();
+      getVehicleInformationWithClients();
     }
     
-  }, []);
+  }, [tokenApi]);
 
-  const searchForPlate = (plate: string) => {
+  const searchForPlate = (plate: string):void => {
     const informationVehicle = vehicleInformation.find(
       (search) => search.attributes.placa === plate
     );
-    console.log(informationVehicle);
+    setsearchResultVehicle(informationVehicle as VehicleWithClientsDatum);
   };
 
   return (
-    <VehicleContext.Provider value={{ registerVehicle, searchForPlate }}>
+    <VehicleContext.Provider value={{ registerVehicle, searchForPlate, searchResultVehicle }}>
       {children}
     </VehicleContext.Provider>
   );

@@ -3,9 +3,7 @@ import { useVehicle } from "../hooks/useVehicle";
 
 export const VehicleInformation = () => {
   const [searchPlate, setSearchPlate] = useState<string>("");
-  const { searchForPlate } = useVehicle();
-
-  console.log(searchPlate);
+  const { searchForPlate, searchResultVehicle } = useVehicle();
 
   const handleSearchSubmit = (event:FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,6 +49,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            defaultValue={searchResultVehicle.placa}
             disabled
           />
         </div>

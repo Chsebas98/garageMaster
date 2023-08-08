@@ -1,3 +1,5 @@
+import { ClientResponse } from "./client";
+
 export interface VehicleResponse {
     data: Data;
 }
@@ -61,25 +63,5 @@ export interface PurpleAttributes {
     createdAt:      Date;
     updatedAt:      Date;
     publishedAt:    Date;
-    clientes:       Clientes;
-}
-
-export interface Clientes {
-    data: ClientesDatum[];
-}
-
-export interface ClientesDatum {
-    id:         number;
-    attributes: FluffyAttributes;
-}
-
-export interface FluffyAttributes {
-    nombre:      string;
-    apellido:    string;
-    correo:      string;
-    telefono:    string;
-    direccion:   string;
-    createdAt:   Date;
-    updatedAt:   Date;
-    publishedAt: Date;
+    clientes:       ClientResponse;
 }
