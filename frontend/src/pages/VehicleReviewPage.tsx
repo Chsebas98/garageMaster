@@ -1,6 +1,14 @@
+import { FormEvent } from "react";
 import { SearchVehicle } from "../components/SearchPlate";
+import emailjs from "@emailjs/browser";
+import { useClient } from "../hooks/useClient";
 
 export const VehicleReviewPage = () => {
+  const { clients } = useClient();
+  const handleSendEmail = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+  }
   return (
     <div className="container mt-5">
       <SearchVehicle />
@@ -109,7 +117,10 @@ export const VehicleReviewPage = () => {
             <p>$40</p>
           </div>
         </div>
+        <form onSubmit={handleSendEmail}>
         <button className="btn btn-secondary">Notificar al cliente</button>
+        </form>
+        
       </div>
     </div>
   );
