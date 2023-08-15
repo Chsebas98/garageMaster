@@ -5,7 +5,6 @@ interface Props {
 }
 
 export const VehicleInformation = ({ searchResultVehicle }: Props) => {
-  console.log(searchResultVehicle);
 
   return (
     <>

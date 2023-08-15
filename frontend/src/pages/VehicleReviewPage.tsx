@@ -1,14 +1,39 @@
-import { FormEvent } from "react";
+import { FormEvent, MutableRefObject, useEffect, useRef } from "react";
 import { SearchVehicle } from "../components/SearchPlate";
 import emailjs from "@emailjs/browser";
-import { useClient } from "../hooks/useClient";
+import { useVehicle } from "../hooks/useVehicle";
+import swal from "sweetalert";
 
 export const VehicleReviewPage = () => {
-  const { clients } = useClient();
-  const handleSendEmail = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const { searchResultVehicle } = useVehicle();
+  const emailApiKey: string = import.meta.env.VITE_EMAIL_API_PUBLIC_KEY;
+  const serviceId: string = import.meta.env.VITE_EMAIL_SERVICE_ID;
+  const templateId: string = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
 
-  }
+  const message = useRef() as MutableRefObject<HTMLInputElement>;
+  useEffect(() => {
+    emailjs.init(emailApiKey);
+  }, [emailApiKey]);
+
+  const handleSendEmail = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const to_name = `${searchResultVehicle.attributes.clientes.data[0].attributes.nombre} ${searchResultVehicle.attributes.clientes.data[0].attributes.apellido}`;
+    const user_email =
+      searchResultVehicle.attributes.clientes.data[0].attributes.correo;
+
+    try {
+      await emailjs.send(serviceId, templateId, {
+        to_name,
+        user_email,
+        message: message.current?.value,
+      });
+      swal("Email enviado correctamente!", "", "success");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  console.log(searchResultVehicle);
+
   return (
     <div className="container mt-5">
       <SearchVehicle />
@@ -19,7 +44,12 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Motivo de ingreso</span>
           </div>
           <div className="col-md-8">
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo nostrum numquam voluptas repellat pariatur non ad sint deserunt labore architecto cum, dolor quam accusamus hic fugit quo quisquam dignissimos eum.</p>
+            <input
+              type="text"
+              id="inputPassword6"
+              className="form-control"
+              placeholder="choque"
+            />
           </div>
         </div>
         <div className="row mb-3">
@@ -27,15 +57,24 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Fecha de ingreso</span>
           </div>
           <div className="col-md-8">
-            <p>2023-05-04</p>
+            <input
+              type="date"
+              name=""
+              id="inputPassword6"
+              className="form-control"
+            />
           </div>
         </div>
         <div className="row mb-3">
           <div className="col-md-4">
-            <span className="fw-bold">Extraso</span>
+            <span className="fw-bold">Extras</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <textarea
+              id="inputPassword6"
+              className="form-control"
+              placeholder="Motor"
+            />
           </div>
         </div>
         <div className="row mb-3">
@@ -43,7 +82,7 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Título de revisión</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <input type="text" id="inputPassword6" className="form-control" />
           </div>
         </div>
         <div className="row mb-3">
@@ -51,7 +90,7 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Detalles de revisión</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <textarea name="" id="inputPassword6" className="form-control" />
           </div>
         </div>
         <div className="row mb-3">
@@ -59,7 +98,12 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Operador a cargo</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <select
+              className="form-select mt-3"
+              aria-label="Default select example"
+            >
+              <option value="">Primer</option>
+            </select>
           </div>
         </div>
         <div className="row mb-3">
@@ -67,7 +111,12 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Tiempo de reparación</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <input
+              type="text"
+              id="inputPassword6"
+              className="form-control"
+              placeholder="tres horas"
+            />
           </div>
         </div>
         <div className="row mb-3">
@@ -75,7 +124,7 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Piezas cambiadas</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <textarea id="inputPassword6" className="form-control" />
           </div>
         </div>
         <div className="row g-4">
@@ -85,12 +134,7 @@ export const VehicleReviewPage = () => {
             </label>
           </div>
           <div className="col-md-3">
-            <input
-              type="text"
-              id="inputPassword6"
-              className="form-control"
-              disabled
-            />
+            <input type="text" id="inputPassword6" className="form-control" />
           </div>
           <div className="col-md-3">
             <label htmlFor="inputPassword6" className="col-form-label fw-bold">
@@ -98,29 +142,31 @@ export const VehicleReviewPage = () => {
             </label>
           </div>
           <div className="col-md-3">
-            <input
-              type="text"
-              id="inputPassword6"
-              className="form-control"
-              disabled
-            />
+            <input type="text" id="inputPassword6" className="form-control" />
           </div>
           <div className="">
             <button className="btn btn-primary mb-3">Calcular</button>
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col-auto">
-            <span className="fw-bold">Precio</span>
+        <form className="form-control" onSubmit={handleSendEmail}>
+          <div className="row mb-3">
+            <div className="col-auto">
+              <span className="fw-bold">Precio</span>
+            </div>
+            <div className="col-auto">
+              <input
+                type="text"
+                id="inputPassword6"
+                className="form-control"
+                value="El precio es $40"
+                ref={message}
+              />
+            </div>
           </div>
-          <div className="col-auto">
-            <p>$40</p>
-          </div>
-        </div>
-        <form onSubmit={handleSendEmail}>
-        <button className="btn btn-secondary">Notificar al cliente</button>
+          <button className="btn btn-secondary" type="submit">
+            Notificar al cliente
+          </button>
         </form>
-        
       </div>
     </div>
   );
