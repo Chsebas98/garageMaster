@@ -14,6 +14,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [tokenApi, setTokenApi] = useState<string>("");
+	const [mechanic, setMechanic] = useState<AuthResponse>({} as AuthResponse)
 
 	const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			});
 			setTokenApi(data.jwt);
 			navigate("/home");
-			console.log(data.user.nivel);
+			setMechanic(data);
 			localStorage.setItem("nivel", data.user.nivel);
 			localStorage.setItem("token", data.jwt);
 		} catch (error) {
@@ -59,7 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	};
 
 	return (
-		<AuthContext.Provider value={{ login, register, tokenApi }}>
+		<AuthContext.Provider value={{ login, register, tokenApi, mechanic }}>
 			{children}
 		</AuthContext.Provider>
 	);

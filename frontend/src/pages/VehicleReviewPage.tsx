@@ -9,6 +9,7 @@ import { SearchVehicle } from "../components/SearchPlate";
 import emailjs from "@emailjs/browser";
 import { useVehicle } from "../hooks/useVehicle";
 import swal from "sweetalert";
+import { useAuth } from "../hooks/useAuth";
 const CalcularPrecio = (
   piezas: number,
   valorextra: number,
@@ -25,7 +26,9 @@ export const VehicleReviewPage = () => {
   const [detallesExtra, setDetallesExtra] = useState("Importe por servicio, ");
   const [valorNivel, setValorNivel] = useState(0);
   const [total, setTotal] = useState(0);
+  //const [reviewVehicle, setReviewVehicle] = useState({});
   const { searchResultVehicle } = useVehicle();
+  const { mechanic } = useAuth();
   const emailApiKey: string = import.meta.env.VITE_EMAIL_API_PUBLIC_KEY;
   const serviceId: string = import.meta.env.VITE_EMAIL_SERVICE_ID;
   const templateId: string = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
@@ -48,7 +51,7 @@ export const VehicleReviewPage = () => {
     AsignarValorNivel();
     CalcularPrecio(piezas, valorextra, valorNivel, setTotal);
   }, [piezas, valorextra, valorNivel]);
-  
+
   const handleSendEmail = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const to_name = `${searchResultVehicle.attributes.clientes.data[0].attributes.nombre} ${searchResultVehicle.attributes.clientes.data[0].attributes.apellido}`;
@@ -59,6 +62,9 @@ export const VehicleReviewPage = () => {
       await emailjs.send(serviceId, templateId, {
         to_name,
         user_email,
+        parts_replaced: piezas,
+        extra: valorextra,
+        details_extra: detallesExtra,
         message: message.current?.value,
       });
       swal("Email enviado correctamente!", "", "success");
@@ -77,12 +83,11 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Motivo de ingreso</span>
           </div>
           <div className="col-md-8">
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo
-              nostrum numquam voluptas repellat pariatur non ad sint deserunt
-              labore architecto cum, dolor quam accusamus hic fugit quo quisquam
-              dignissimos eum.
-            </p>
+            {searchResultVehicle.attributes ? (
+              <p>{searchResultVehicle.attributes.motivo_ingreso}</p>
+            ) : (
+              <p></p>
+            )}
           </div>
         </div>
         <div className="row mb-3">
@@ -90,15 +95,23 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Fecha de ingreso</span>
           </div>
           <div className="col-md-8">
-            <p>2023-05-04</p>
+            {searchResultVehicle.attributes ? (
+              <p>{String(searchResultVehicle.attributes.fecha_ingreso)}</p>
+            ) : (
+              <p></p>
+            )}
           </div>
         </div>
         <div className="row mb-3">
           <div className="col-md-4">
-            <span className="fw-bold">Extraso</span>
+            <span className="fw-bold">Extras</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <textarea
+              id="inputPassword6"
+              className="form-control"
+              placeholder="Motor"
+            />
           </div>
         </div>
         <div className="row mb-3">
@@ -106,7 +119,7 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Título de revisión</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <input type="text" id="inputPassword6" className="form-control" />
           </div>
         </div>
         <div className="row mb-3">
@@ -114,7 +127,11 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Detalles de revisión</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <textarea
+              id="inputPassword6"
+              className="form-control"
+              placeholder="Motor"
+            />
           </div>
         </div>
         <div className="row mb-3">
@@ -122,7 +139,13 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Operador a cargo</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
+            <input
+              type="text"
+              id="inputPassword6"
+              className="form-control"
+              value={mechanic.user.username}
+              disabled
+            />
           </div>
         </div>
         <div className="row mb-3">
@@ -130,67 +153,87 @@ export const VehicleReviewPage = () => {
             <span className="fw-bold">Tiempo de reparación</span>
           </div>
           <div className="col-md-8">
-            <p>lslsl</p>
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col-md-4">
-            <span className="fw-bold">Piezas cambiadas</span>
-          </div>
-          <div className="col-md-1">
             <input
-              type="number"
-              name="piezas"
-              id="piezas"
+              type="text"
+              id="inputPassword6"
               className="form-control"
-              value={piezas}
-              onChange={(e) => setPiezas(Number(e.target.value))}
+              placeholder="tres horas"
             />
           </div>
         </div>
-        <div className="row g-4">
-          <div className="col-md-3 mb-3">
-            <label htmlFor="inputPassword6" className="col-form-label fw-bold">
-              Extra
-            </label>
+        <form onSubmit={handleSendEmail}>
+          <div className="row mb-3">
+            <div className="col-md-4">
+              <span className="fw-bold">Piezas cambiadas</span>
+            </div>
+            <div className="col-md-1">
+              <input
+                type="number"
+                name="piezas"
+                id="piezas"
+                className="form-control"
+                value={piezas}
+                onChange={(e) => setPiezas(Number(e.target.value))}
+              />
+            </div>
           </div>
-          <div className="col-md-1">
-            <input
-              type="number"
-              name="extra"
-              id="extra"
-              className="form-control"
-              value={valorextra}
-              onChange={(e) => setExtra(Number(e.target.value))}
-            />
+          <div className="row g-4">
+            <div className="col-md-3">
+              <label
+                htmlFor="inputPassword6"
+                className="col-form-label fw-bold"
+              >
+                Extra
+              </label>
+            </div>
+            <div className="col-md-1">
+              <input
+                type="number"
+                name="extra"
+                id="extra"
+                className="form-control"
+                value={valorextra}
+                onChange={(e) => setExtra(Number(e.target.value))}
+              />
+            </div>
+            <div className="col-md-3">
+              <label
+                htmlFor="inputPassword6"
+                className="col-form-label fw-bold"
+              >
+                Detalles extra
+              </label>
+            </div>
+            <div className="col-md-5">
+              <textarea
+                name="detalles_extra"
+                id="detalles_extra"
+                className="form-control"
+                value={detallesExtra}
+                onChange={(e) => setDetallesExtra(e.target.value)}
+              />
+            </div>
+            
           </div>
-          <div className="col-md-3">
-            <label htmlFor="inputPassword6" className="col-form-label fw-bold">
-              Detalles extra
-            </label>
+          <div className="row mb-3 mt-3">
+            <div className="col-auto">
+              <span className="fw-bold">Precio</span>
+            </div>
+            <div className="col-auto">
+              <input
+                type="text"
+                id="inputPassword6"
+                className="form-control"
+                value={`$${total}`}
+                ref={message}
+                disabled
+              />
+            </div>
           </div>
-          <div className="col-md-5">
-            <textarea
-              name="detalles_extra"
-              id="detalles_extra"
-              className="form-control"
-              value={detallesExtra}
-              onChange={(e) => setDetallesExtra(e.target.value)}
-            />
-          </div>
-          <div className="">
-            <button className="btn btn-primary mb-3">Calcular</button>
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col-auto">
-            <span className="fw-bold">Precio</span>
-          </div>
-          <div className="col-auto">
-            <p>${total}</p>
-          </div>
-        </div>
-        <button className="btn btn-secondary">Notificar al cliente</button>
+          <button className="btn btn-secondary mb-3" type="submit">
+            Notificar al cliente
+          </button>
+        </form>
       </div>
     </div>
   );
