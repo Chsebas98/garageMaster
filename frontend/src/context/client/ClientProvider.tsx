@@ -62,7 +62,7 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
       getClients();
     }
     
-  }, [tokenApi]);
+  }, [tokenApi, registerClient]);
   return (
     <ClientContext.Provider value={{ registerClient, clients }}>
       {children}
