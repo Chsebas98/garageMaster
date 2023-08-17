@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			setMechanic(data);
 			localStorage.setItem("nivel", data.user.nivel);
 			localStorage.setItem("token", data.jwt);
+			localStorage.setItem("mechanic", JSON.stringify(data.user))
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				//alert(error.response?.data.error.message);

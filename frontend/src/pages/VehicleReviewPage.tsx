@@ -35,18 +35,17 @@ export const VehicleReviewPage = () => {
     extras: "",
     detalles_extra: "",
     precio: 0,
-    vehiculos: searchResultVehicle.attributes ? [searchResultVehicle.id]: [],
-    users_permissions_users: [mechanic.user.id]
+    vehiculos: [],
+    users_permissions_users: [mechanic.user.id],
   });
-  
-  
+
   const emailApiKey: string = import.meta.env.VITE_EMAIL_API_PUBLIC_KEY;
   const serviceId: string = import.meta.env.VITE_EMAIL_SERVICE_ID;
   const templateId: string = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
   const message = useRef() as MutableRefObject<HTMLInputElement>;
   useEffect(() => {
     emailjs.init(emailApiKey);
-  }, [emailApiKey, reviewVehicle]);
+  }, [emailApiKey, searchResultVehicle]);
   const AsignarValorNivel = () => {
     const nivel = localStorage.getItem("nivel");
     if (nivel === "Junior") {
@@ -58,25 +57,29 @@ export const VehicleReviewPage = () => {
     }
   };
 
-  const handleReviewChange = (event:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleReviewChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setReviewVehicle({
       ...reviewVehicle,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
-  }
-  console.log(reviewVehicle);
-  
+  };
 
   useEffect(() => {
     AsignarValorNivel();
-    CalcularPrecio(Number(reviewVehicle.peizas_cambiadas), Number(reviewVehicle.extras), valorNivel, setTotal);
+    CalcularPrecio(
+      Number(reviewVehicle.peizas_cambiadas),
+      Number(reviewVehicle.extras),
+      valorNivel,
+      setTotal
+    );
   }, [reviewVehicle.peizas_cambiadas, reviewVehicle.extras, valorNivel]);
 
   const handleSendEmail = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const to_name = `${searchResultVehicle.attributes.clientes.data[0].attributes.nombre} ${searchResultVehicle.attributes.clientes.data[0].attributes.apellido}`;
-    const user_email =
-      searchResultVehicle.attributes.clientes.data[0].attributes.correo;
+    const user_email = searchResultVehicle.attributes.clientes.data[0].attributes.correo;
 
     try {
       await emailjs.send(serviceId, templateId, {
@@ -87,11 +90,18 @@ export const VehicleReviewPage = () => {
         details_extra: reviewVehicle.detalles_extra,
         message: message.current?.value,
       });
-      swal("Email enviado correctamente!", "", "success");
+      setReviewVehicle({
+        ...reviewVehicle,
+        vehiculos: [searchResultVehicle.id],
+      });
+      registerVehicleReview(reviewVehicle);
+      swal("Email y registro enviado correctamente!", "", "success");
     } catch (error) {
       console.error(error);
     }
   };
+  console.log(searchResultVehicle.attributes.clientes.data[0].attributes.correo);
+  
 
   return (
     <div className="container mt-5">
@@ -163,7 +173,7 @@ export const VehicleReviewPage = () => {
             </div>
             <div className="col-md-8">
               <input
-              type="date"
+                type="date"
                 id="inputPassword6"
                 className="form-control"
                 placeholder="Motor"
@@ -252,7 +262,6 @@ export const VehicleReviewPage = () => {
                 name="detalles_extra"
                 id="detalles_extra"
                 className="form-control"
-                value={reviewVehicle.detalles_revision}
                 //onChange={(e) => setDetallesExtra(e.target.value)}
                 onChange={handleReviewChange}
               />
@@ -275,7 +284,7 @@ export const VehicleReviewPage = () => {
             </div>
           </div>
           <button className="btn btn-secondary mb-3" type="submit">
-            Notificar al cliente
+            Notificar y registrar al cliente
           </button>
         </form>
       </div>

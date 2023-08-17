@@ -2,9 +2,9 @@ import { ReactNode, useEffect, useState } from "react";
 import { ClientContext } from "./ClientContext";
 import { ClientResponse, Datum, RegisterClient } from "../../interfaces/client";
 import { axiosClient } from "../../apis";
-import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import { token } from "../../apis/service/store";
 
 interface ClientProviderProps {
   children: ReactNode;
@@ -12,8 +12,6 @@ interface ClientProviderProps {
 
 export const ClientProvider = ({ children }: ClientProviderProps) => {
   const [clients, setClients] = useState<Datum[]>([]);
-
-  const { tokenApi } = useAuth();
 
   const navigate = useNavigate();
 
@@ -36,7 +34,7 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
             direccion,
           },
         },
-        { headers: { Authorization: `Bearer ${tokenApi}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       swal("Cliente registrado!", "", "success");
       navigate("/home");
@@ -49,7 +47,7 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
     try {
       const { data } = await axiosClient.get<ClientResponse>(
         "/api/clientes",
-        { headers: { Authorization: `Bearer ${tokenApi}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setClients(data.data);
     } catch (error) {
@@ -58,11 +56,11 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
   };
 
   useEffect(() => {
-    if (tokenApi) {
+    if (token) {
       getClients();
     }
     
-  }, [tokenApi, registerClient]);
+  }, []);
   return (
     <ClientContext.Provider value={{ registerClient, clients }}>
       {children}

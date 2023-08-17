@@ -1,7 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Header.css";
+import { token } from "../apis/service/store";
 
 export const Header = () => {
+  const navigate = useNavigate();
+  const onLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+    window.location.reload();
+    localStorage.removeItem("nivel");
+    localStorage.removeItem("mechanic");
+  }
   return (
     <header>
       <nav className="navbar navbar-expand-lg bg-body-tertiary px-2">
@@ -38,9 +47,15 @@ export const Header = () => {
                 <Link to="">Reviews</Link>
               </li>
             </ul>
-            <Link to="/login" className="navbar-btn-login">
-              Login
-            </Link>
+            {token ? (
+              <button onClick={onLogout} className="navbar-btn-login">
+                Logout
+              </button>
+            ) : (
+              <Link to="/login"  className="navbar-btn-login">
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </nav>

@@ -10,7 +10,7 @@ import {
 } from "../../interfaces/vehicle";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import { token } from "../../apis/service/store";
 
 interface VehicleProviderProps {
   children: ReactNode;
@@ -23,7 +23,6 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
   const [searchResultVehicle, setsearchResultVehicle] =
     useState<VehicleWithClientsDatum>({} as VehicleWithClientsDatum);
   const navigate = useNavigate();
-  const { tokenApi } = useAuth();
 
   const registerVehicle = async ({
     placa,
@@ -56,7 +55,7 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
             clientes: [clientes],
           },
         },
-        { headers: { Authorization: `Bearer ${tokenApi}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       swal("Vehiculo registrado!", "", "success");
       navigate("/home");
@@ -73,7 +72,11 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     extras,
     detalles_extra,
     precio,
+    vehiculos,
+    users_permissions_users
   }: RegisterVehicleReview): Promise<void> => {
+    console.log(vehiculos, users_permissions_users);
+    
     try {
       await axiosClient.post<RegisterVehicleReview>(
         "/api/revisions",
@@ -86,15 +89,17 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
             extras,
             detalles_extra,
             precio,
+            vehiculos,
+            users_permissions_users
           },
         },
         {
           headers: {
-            Authorization: `Bearer ${tokenApi}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      swal("Revisión del vehiculo registrado!", "", "success");
+      navigate("/home");
     } catch (error) {
       console.error(error);
     }
@@ -104,7 +109,7 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     try {
       const { data } = await axiosClient.get<VehicleWithClients>(
         "api/vehiculos?populate=*",
-        { headers: { Authorization: `Bearer ${tokenApi}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setVehicleInformation(data.data);
       console.log(data.data);
@@ -114,10 +119,10 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
   };
 
   useEffect(() => {
-    if (tokenApi) {
+    if (token) {
       getVehicleInformationWithClients();
     }
-  }, [tokenApi]);
+  }, [token]);
 
   const searchForPlate = (plate: string): void => {
     const informationVehicle = vehicleInformation.find(
