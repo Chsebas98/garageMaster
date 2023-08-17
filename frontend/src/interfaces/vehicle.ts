@@ -76,8 +76,8 @@ export interface RegisterVehicleReview {
     extras:                  string;
     detalles_extra:          string;
     precio:                  number;
-    vehiculos:               VehicleResponse;
-    users_permissions_users: User;
+    vehiculos:               number[];
+    users_permissions_users: number[];
 }
 
 export interface ListVehicleReview {

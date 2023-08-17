@@ -4,12 +4,14 @@ import {
   FormEvent,
   MutableRefObject,
   useRef,
+  ChangeEvent,
 } from "react";
 import { SearchVehicle } from "../components/SearchPlate";
 import emailjs from "@emailjs/browser";
 import { useVehicle } from "../hooks/useVehicle";
 import swal from "sweetalert";
 import { useAuth } from "../hooks/useAuth";
+import { RegisterVehicleReview } from "../interfaces/vehicle";
 const CalcularPrecio = (
   piezas: number,
   valorextra: number,
@@ -21,21 +23,30 @@ const CalcularPrecio = (
 };
 
 export const VehicleReviewPage = () => {
-  const [piezas, setPiezas] = useState(0);
-  const [valorextra, setExtra] = useState(0);
-  const [detallesExtra, setDetallesExtra] = useState("Importe por servicio, ");
   const [valorNivel, setValorNivel] = useState(0);
   const [total, setTotal] = useState(0);
-  //const [reviewVehicle, setReviewVehicle] = useState({});
-  const { searchResultVehicle } = useVehicle();
+  const { searchResultVehicle, registerVehicleReview } = useVehicle();
   const { mechanic } = useAuth();
+  const [reviewVehicle, setReviewVehicle] = useState<RegisterVehicleReview>({
+    detalles_revision: "Importe por servicio",
+    fecha_salida: new Date(),
+    tiempo_reparacion: "",
+    peizas_cambiadas: "",
+    extras: "",
+    detalles_extra: "",
+    precio: 0,
+    vehiculos: searchResultVehicle.attributes ? [searchResultVehicle.id]: [],
+    users_permissions_users: [mechanic.user.id]
+  });
+  
+  
   const emailApiKey: string = import.meta.env.VITE_EMAIL_API_PUBLIC_KEY;
   const serviceId: string = import.meta.env.VITE_EMAIL_SERVICE_ID;
   const templateId: string = import.meta.env.VITE_EMAIL_TEMPLATE_ID;
   const message = useRef() as MutableRefObject<HTMLInputElement>;
   useEffect(() => {
     emailjs.init(emailApiKey);
-  }, [emailApiKey]);
+  }, [emailApiKey, reviewVehicle]);
   const AsignarValorNivel = () => {
     const nivel = localStorage.getItem("nivel");
     if (nivel === "Junior") {
@@ -47,10 +58,19 @@ export const VehicleReviewPage = () => {
     }
   };
 
+  const handleReviewChange = (event:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setReviewVehicle({
+      ...reviewVehicle,
+      [event.target.name]: event.target.value
+    });
+  }
+  console.log(reviewVehicle);
+  
+
   useEffect(() => {
     AsignarValorNivel();
-    CalcularPrecio(piezas, valorextra, valorNivel, setTotal);
-  }, [piezas, valorextra, valorNivel]);
+    CalcularPrecio(Number(reviewVehicle.peizas_cambiadas), Number(reviewVehicle.extras), valorNivel, setTotal);
+  }, [reviewVehicle.peizas_cambiadas, reviewVehicle.extras, valorNivel]);
 
   const handleSendEmail = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -62,9 +82,9 @@ export const VehicleReviewPage = () => {
       await emailjs.send(serviceId, templateId, {
         to_name,
         user_email,
-        parts_replaced: piezas,
-        extra: valorextra,
-        details_extra: detallesExtra,
+        parts_replaced: reviewVehicle.peizas_cambiadas,
+        extra: reviewVehicle.extras,
+        details_extra: reviewVehicle.detalles_extra,
         message: message.current?.value,
       });
       swal("Email enviado correctamente!", "", "success");
@@ -122,46 +142,67 @@ export const VehicleReviewPage = () => {
             <input type="text" id="inputPassword6" className="form-control" />
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col-md-4">
-            <span className="fw-bold">Detalles de revisión</span>
-          </div>
-          <div className="col-md-8">
-            <textarea
-              id="inputPassword6"
-              className="form-control"
-              placeholder="Motor"
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col-md-4">
-            <span className="fw-bold">Operador a cargo</span>
-          </div>
-          <div className="col-md-8">
-            <input
-              type="text"
-              id="inputPassword6"
-              className="form-control"
-              value={mechanic.user.username}
-              disabled
-            />
-          </div>
-        </div>
-        <div className="row mb-3">
-          <div className="col-md-4">
-            <span className="fw-bold">Tiempo de reparación</span>
-          </div>
-          <div className="col-md-8">
-            <input
-              type="text"
-              id="inputPassword6"
-              className="form-control"
-              placeholder="tres horas"
-            />
-          </div>
-        </div>
         <form onSubmit={handleSendEmail}>
+          <div className="row mb-3">
+            <div className="col-md-4">
+              <span className="fw-bold">Detalles de revisión</span>
+            </div>
+            <div className="col-md-8">
+              <textarea
+                id="inputPassword6"
+                className="form-control"
+                name="detalles_revision"
+                onChange={handleReviewChange}
+                placeholder="Motor"
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col-md-4">
+              <span className="fw-bold">Fecha de salida</span>
+            </div>
+            <div className="col-md-8">
+              <input
+              type="date"
+                id="inputPassword6"
+                className="form-control"
+                placeholder="Motor"
+                name="fecha_salida"
+                onChange={handleReviewChange}
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col-md-4">
+              <span className="fw-bold">Operador a cargo</span>
+            </div>
+            <div className="col-md-8">
+              <input
+                type="text"
+                id="inputPassword6"
+                //name="users_permissions_users"
+                className="form-control"
+                onChange={handleReviewChange}
+                value={mechanic.user.username}
+                disabled
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <div className="col-md-4">
+              <span className="fw-bold">Tiempo de reparación</span>
+            </div>
+            <div className="col-md-8">
+              <input
+                type="text"
+                id="inputPassword6"
+                name="tiempo_reparacion"
+                onChange={handleReviewChange}
+                className="form-control"
+                placeholder="tres horas"
+              />
+            </div>
+          </div>
           <div className="row mb-3">
             <div className="col-md-4">
               <span className="fw-bold">Piezas cambiadas</span>
@@ -169,11 +210,12 @@ export const VehicleReviewPage = () => {
             <div className="col-md-1">
               <input
                 type="number"
-                name="piezas"
+                name="peizas_cambiadas"
                 id="piezas"
                 className="form-control"
-                value={piezas}
-                onChange={(e) => setPiezas(Number(e.target.value))}
+                value={reviewVehicle.peizas_cambiadas}
+                //onChange={(e) => setPiezas(Number(e.target.value))}
+                onChange={handleReviewChange}
               />
             </div>
           </div>
@@ -189,11 +231,12 @@ export const VehicleReviewPage = () => {
             <div className="col-md-1">
               <input
                 type="number"
-                name="extra"
+                name="extras"
                 id="extra"
                 className="form-control"
-                value={valorextra}
-                onChange={(e) => setExtra(Number(e.target.value))}
+                value={reviewVehicle.extras}
+                //onChange={(e) => setExtra(Number(e.target.value))}
+                onChange={handleReviewChange}
               />
             </div>
             <div className="col-md-3">
@@ -209,11 +252,11 @@ export const VehicleReviewPage = () => {
                 name="detalles_extra"
                 id="detalles_extra"
                 className="form-control"
-                value={detallesExtra}
-                onChange={(e) => setDetallesExtra(e.target.value)}
+                value={reviewVehicle.detalles_revision}
+                //onChange={(e) => setDetallesExtra(e.target.value)}
+                onChange={handleReviewChange}
               />
             </div>
-            
           </div>
           <div className="row mb-3 mt-3">
             <div className="col-auto">
@@ -223,6 +266,7 @@ export const VehicleReviewPage = () => {
               <input
                 type="text"
                 id="inputPassword6"
+                name="precio"
                 className="form-control"
                 value={`$${total}`}
                 ref={message}

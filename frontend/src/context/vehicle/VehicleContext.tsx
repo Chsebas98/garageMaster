@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { RegisterVehicle, VehicleWithClientsDatum } from "../../interfaces/vehicle";
+import { RegisterVehicle, RegisterVehicleReview, VehicleWithClientsDatum } from "../../interfaces/vehicle";
 
 interface VehicleContextProps {
   registerVehicle: ({
@@ -15,6 +15,16 @@ interface VehicleContextProps {
     motivo_ingreso,
     clientes,
   }: RegisterVehicle) => Promise<void>
+  
+  registerVehicleReview: ({
+    detalles_revision,
+    fecha_salida,
+    tiempo_reparacion,
+    peizas_cambiadas,
+    extras,
+    detalles_extra,
+    precio,
+  }: RegisterVehicleReview) => Promise<void>
   searchForPlate: (plate:string) => void
   searchResultVehicle: VehicleWithClientsDatum
 }

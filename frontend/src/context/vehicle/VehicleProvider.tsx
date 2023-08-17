@@ -3,6 +3,7 @@ import { VehicleContext } from "./VehicleContext";
 import { axiosClient } from "../../apis";
 import {
   RegisterVehicle,
+  RegisterVehicleReview,
   VehicleResponse,
   VehicleWithClients,
   VehicleWithClientsDatum,
@@ -16,8 +17,11 @@ interface VehicleProviderProps {
 }
 
 export const VehicleProvider = ({ children }: VehicleProviderProps) => {
-  const [vehicleInformation, setVehicleInformation] = useState<VehicleWithClientsDatum[]>([]);
-  const [searchResultVehicle, setsearchResultVehicle] = useState<VehicleWithClientsDatum>({} as VehicleWithClientsDatum);
+  const [vehicleInformation, setVehicleInformation] = useState<
+    VehicleWithClientsDatum[]
+  >([]);
+  const [searchResultVehicle, setsearchResultVehicle] =
+    useState<VehicleWithClientsDatum>({} as VehicleWithClientsDatum);
   const navigate = useNavigate();
   const { tokenApi } = useAuth();
 
@@ -61,6 +65,41 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     }
   };
 
+  const registerVehicleReview = async ({
+    detalles_revision,
+    fecha_salida,
+    tiempo_reparacion,
+    peizas_cambiadas,
+    extras,
+    detalles_extra,
+    precio,
+  }: RegisterVehicleReview): Promise<void> => {
+    try {
+      await axiosClient.post<RegisterVehicleReview>(
+        "/api/revisions",
+        {
+          data: {
+            detalles_revision,
+            fecha_salida,
+            tiempo_reparacion,
+            peizas_cambiadas,
+            extras,
+            detalles_extra,
+            precio,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${tokenApi}`,
+          },
+        }
+      );
+      swal("Revisión del vehiculo registrado!", "", "success");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getVehicleInformationWithClients = async (): Promise<void> => {
     try {
       const { data } = await axiosClient.get<VehicleWithClients>(
@@ -75,13 +114,12 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
   };
 
   useEffect(() => {
-    if(tokenApi) {
+    if (tokenApi) {
       getVehicleInformationWithClients();
     }
-    
   }, [tokenApi]);
 
-  const searchForPlate = (plate: string):void => {
+  const searchForPlate = (plate: string): void => {
     const informationVehicle = vehicleInformation.find(
       (search) => search.attributes.placa === plate
     );
@@ -89,7 +127,14 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
   };
 
   return (
-    <VehicleContext.Provider value={{ registerVehicle, searchForPlate, searchResultVehicle }}>
+    <VehicleContext.Provider
+      value={{
+        registerVehicle,
+        registerVehicleReview,
+        searchForPlate,
+        searchResultVehicle,
+      }}
+    >
       {children}
     </VehicleContext.Provider>
   );
