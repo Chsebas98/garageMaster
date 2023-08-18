@@ -1,6 +1,10 @@
 import { SearchVehicle } from "../components/SearchPlate";
+import { useVehicle } from "../hooks/useVehicle";
 
 export const VehicleHistoryPage = () => {
+  const {  vehicleHistory } = useVehicle();
+  console.log(vehicleHistory);
+  
   return (
     <div className="container mt-5">
       <SearchVehicle />

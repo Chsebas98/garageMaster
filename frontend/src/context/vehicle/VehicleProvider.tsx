@@ -3,6 +3,7 @@ import { VehicleContext } from "./VehicleContext";
 import { axiosClient } from "../../apis";
 import {
   ListVehicleReview,
+  ListVehicleReviewDatum,
   RegisterVehicle,
   RegisterVehicleReview,
   VehicleResponse,
@@ -24,8 +25,10 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
   >([]);
   const [searchResultVehicle, setsearchResultVehicle] =
     useState<VehicleWithClientsDatum>({} as VehicleWithClientsDatum);
-  
-  const [vehicleHistory, setVehicleHistory] = useState<RegisterVehicleReview[]>([]);
+
+  const [vehicleHistory, setVehicleHistory] = useState<
+    ListVehicleReviewDatum[]
+  >([]);
   const navigate = useNavigate();
   const { tokenApi } = useAuth();
 
@@ -125,10 +128,13 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
 
   const getReviewVehicle = async (): Promise<void> => {
     try {
-      const { data } = await axiosClient.get<RegisterVehicleReview[]>("/api/revisions?populate=*", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setVehicleHistory(data);
+      const { data } = await axiosClient.get<ListVehicleReview>(
+        "/api/revisions?populate=*",
+        {
+          headers: { Authorization: `Bearer ${tokenApi}` },
+        }
+      );
+      setVehicleHistory(data.data);
     } catch (error) {
       console.error(error);
     }
@@ -148,9 +154,13 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     setsearchResultVehicle(informationVehicle as VehicleWithClientsDatum);
   };
 
-  const listReviewsVehicle = (plate:string) => {
-    const listReviews = vehicleHistory.map(list => list)
-  }
+  const listReviewsVehicle = (plate: string) => {
+    const listReviews = vehicleHistory.filter(
+      (list) => list?.attributes.vehiculos.data[0]?.attributes.placa === plate
+    );
+    setVehicleHistory(listReviews);
+
+  };
 
   return (
     <VehicleContext.Provider
@@ -159,6 +169,8 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
         registerVehicleReview,
         searchForPlate,
         searchResultVehicle,
+        listReviewsVehicle,
+        vehicleHistory
       }}
     >
       {children}
