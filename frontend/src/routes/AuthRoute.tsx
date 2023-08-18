@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { token } from "../apis/service/store";
+import { useAuth } from "../hooks/useAuth";
 
 interface Props {
   children: ReactNode;
@@ -8,7 +9,9 @@ interface Props {
 
 export const AuthRoute = ({ children }: Props) => {
 
-  if (!token) {
+  const { tokenApi } = useAuth();
+
+  if (!tokenApi) {
     return (
       <>
         <Navigate to="/login" />
