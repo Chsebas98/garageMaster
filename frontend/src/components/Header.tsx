@@ -1,9 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Header.css";
 import { token } from "../apis/service/store";
+import { useAuth } from "../hooks/useAuth";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const { tokenApi } = useAuth();
   const onLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
@@ -47,7 +49,7 @@ export const Header = () => {
                 <Link to="">Reviews</Link>
               </li>
             </ul>
-            {token ? (
+            {tokenApi ? (
               <button onClick={onLogout} className="navbar-btn-login">
                 Logout
               </button>
