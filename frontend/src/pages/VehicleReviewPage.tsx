@@ -36,7 +36,7 @@ export const VehicleReviewPage = () => {
     detalles_extra: "",
     precio: 0,
     vehiculos: [],
-    users_permissions_users: [mechanic.user.id],
+    users_permissions_users: [mechanic?.user?.id],
   });
 
   const emailApiKey: string = import.meta.env.VITE_EMAIL_API_PUBLIC_KEY;
@@ -100,7 +100,7 @@ export const VehicleReviewPage = () => {
       console.error(error);
     }
   };
-  //console.log(searchResultVehicle.attributes.clientes.data[0].attributes.correo);
+  console.log(reviewVehicle);
   
 
   return (
@@ -193,7 +193,7 @@ export const VehicleReviewPage = () => {
                 //name="users_permissions_users"
                 className="form-control"
                 onChange={handleReviewChange}
-                value={mechanic.user.username}
+                value={mechanic?.user?.username}
                 disabled
               />
             </div>

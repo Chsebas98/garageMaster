@@ -5,14 +5,15 @@ import { AuthResponse } from "../../interfaces/authResponse";
 
 interface AuthContextProps {
 	login: ({ identifier, password }: UserLogin) => Promise<void>;
-	mechanic: AuthResponse
+	mechanic: AuthResponse | string | null
 	register: ({
 		username,
 		email,
 		password,
 		nivel,
 	}: UserRegister) => Promise<void>;
-	tokenApi: string;
+	tokenApi: string | undefined;
+	logout: () => void
 }
 
 export const AuthContext = createContext({} as AuthContextProps);

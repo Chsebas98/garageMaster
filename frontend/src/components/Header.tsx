@@ -1,18 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/Header.css";
-import { token } from "../apis/service/store";
 import { useAuth } from "../hooks/useAuth";
 
 export const Header = () => {
-  const navigate = useNavigate();
-  const { tokenApi } = useAuth();
-  const onLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-    window.location.reload();
-    localStorage.removeItem("nivel");
-    localStorage.removeItem("mechanic");
-  }
+  const { tokenApi, logout } = useAuth();
+  
   return (
     <header>
       <nav className="navbar navbar-expand-lg bg-body-tertiary px-2">
@@ -50,7 +42,7 @@ export const Header = () => {
               </li>
             </ul>
             {tokenApi ? (
-              <button onClick={onLogout} className="navbar-btn-login">
+              <button onClick={logout} className="navbar-btn-login">
                 Logout
               </button>
             ) : (

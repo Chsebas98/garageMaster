@@ -4,7 +4,6 @@ import { ClientResponse, Datum, RegisterClient } from "../../interfaces/client";
 import { axiosClient } from "../../apis";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
-import { token } from "../../apis/service/store";
 import { useAuth } from "../../hooks/useAuth";
 
 interface ClientProviderProps {

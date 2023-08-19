@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { token } from "../apis/service/store";
 import { useAuth } from "../hooks/useAuth";
 
 interface Props {
