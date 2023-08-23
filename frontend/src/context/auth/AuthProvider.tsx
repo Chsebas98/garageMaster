@@ -18,7 +18,7 @@ const mechanicUser = window.localStorage.getItem("mechanic");
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [tokenApi, setTokenApi] = useState<string | undefined>(token ? token : "");
-  const [mechanic, setMechanic] = useState<AuthResponse | string | null>(mechanicUser ? JSON.parse(mechanicUser) : {} as AuthResponse);
+  const [mechanic, setMechanic] = useState<AuthResponse>(mechanicUser ? JSON.parse(mechanicUser) : {} as AuthResponse);
 
   const navigate = useNavigate();
 

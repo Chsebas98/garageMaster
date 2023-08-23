@@ -29,6 +29,7 @@ interface VehicleContextProps {
   searchResultVehicle: VehicleWithClientsDatum
   listReviewsVehicle: (plate:string) => void
   vehicleHistory: ListVehicleReviewDatum[]
+  historyVehicle: ListVehicleReviewDatum[]
 }
 
 export const VehicleContext = createContext({} as VehicleContextProps);

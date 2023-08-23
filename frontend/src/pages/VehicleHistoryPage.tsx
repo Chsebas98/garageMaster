@@ -2,7 +2,8 @@ import { SearchVehicle } from "../components/SearchPlate";
 import { useVehicle } from "../hooks/useVehicle";
 
 export const VehicleHistoryPage = () => {
-  const { vehicleHistory, searchResultVehicle } = useVehicle();
+  const { historyVehicle, searchResultVehicle } = useVehicle();
+console.log(historyVehicle);
 
   return (
     <div className="container mt-5">
@@ -23,7 +24,7 @@ export const VehicleHistoryPage = () => {
             </thead>
             <tbody>
               {Object.keys(searchResultVehicle).length > 0 &&
-                vehicleHistory.map((item, index) => (
+                historyVehicle.map((item, index) => (
                   <tr key={item.id}>
                     <th scope="row">{index + 1}</th>
                     <td>

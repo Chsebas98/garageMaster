@@ -76,7 +76,7 @@ export interface RegisterVehicleReview {
     extras:                  string;
     detalles_extra:          string;
     precio:                  number;
-    vehiculos:               number[] | ListVehicleReview;
+    vehiculos:               number[];
     users_permissions_users: number[] | UsersPermissionsUsers;
 }
 

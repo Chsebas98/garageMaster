@@ -5,7 +5,7 @@ import { AuthResponse } from "../../interfaces/authResponse";
 
 interface AuthContextProps {
 	login: ({ identifier, password }: UserLogin) => Promise<void>;
-	mechanic: AuthResponse | string | null
+	mechanic: AuthResponse
 	register: ({
 		username,
 		email,

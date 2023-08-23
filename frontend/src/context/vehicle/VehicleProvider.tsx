@@ -28,6 +28,8 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
   const [vehicleHistory, setVehicleHistory] = useState<
     ListVehicleReviewDatum[]
   >([]);
+
+  const [historyVehicle, setHistoryVehicle] = useState<ListVehicleReviewDatum[]>([]);
   const navigate = useNavigate();
   const { tokenApi } = useAuth();
 
@@ -139,6 +141,14 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     }
   };
 
+  const listReviewsVehicle = (plate: string) => {
+    const listReviews = vehicleHistory.filter(
+      (list) => list?.attributes.vehiculos.data[0]?.attributes.placa === plate
+    );
+    setHistoryVehicle(listReviews);
+
+  };
+
   useEffect(() => {
     if (tokenApi) {
       getVehicleInformationWithClients();
@@ -153,13 +163,7 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     setsearchResultVehicle(informationVehicle as VehicleWithClientsDatum);
   };
 
-  const listReviewsVehicle = (plate: string) => {
-    const listReviews = vehicleHistory.filter(
-      (list) => list?.attributes.vehiculos.data[0]?.attributes.placa === plate
-    );
-    setVehicleHistory(listReviews);
-
-  };
+  
 
   return (
     <VehicleContext.Provider
@@ -169,7 +173,8 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
         searchForPlate,
         searchResultVehicle,
         listReviewsVehicle,
-        vehicleHistory
+        vehicleHistory,
+        historyVehicle
       }}
     >
       {children}
