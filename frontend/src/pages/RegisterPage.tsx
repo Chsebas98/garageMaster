@@ -3,7 +3,7 @@ import "../styles/Register.css";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { UserRegister } from "../interfaces/register";
 import { useAuth } from "../hooks/useAuth";
-import Swal from "sweetalert2";
+import swal from "sweetalert";
 
 export const RegisterPage = () => {
 	const [user, setUser] = useState<UserRegister>({
@@ -30,11 +30,7 @@ export const RegisterPage = () => {
 	const handleRegisterSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if ([user.username, user.email, user.password, user.nivel].includes("")) {
-			Swal.fire({
-				icon: "error",
-				title: "Error",
-				text: "Todos los campos deben ser llenados",
-			});
+			swal("Todos los campos deben ser llenados", "", "error");
 			return;
 		}
 		//console.log(user);

@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useClient } from "../hooks/useClient";
 import { RegisterVehicle } from "../interfaces/vehicle";
 import { useVehicle } from "../hooks/useVehicle";
-import Swal from "sweetalert2";
+import swal from "sweetalert";
 
 export const VehicleRegisterPage = () => {
 	const [vehicle, setVehicle] = useState<RegisterVehicle>({
@@ -49,11 +49,7 @@ export const VehicleRegisterPage = () => {
 				vehicle.placa,
 			].includes("")
 		) {
-			Swal.fire({
-				icon: "error",
-				title: "Error",
-				text: "Todos los campos deben ser llenados",
-			});
+			swal("Todos los campos deben ser llenados", "", "error");
 			return;
 		}
 		registerVehicle(vehicle);

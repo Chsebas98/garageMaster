@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { RegisterClient } from "../interfaces/client";
 import { useClient } from "../hooks/useClient";
-import Swal from "sweetalert2";
+import swal from "sweetalert";
 
 export const RegisterClientPage = () => {
 	const [client, setClient] = useState<RegisterClient>({
@@ -32,11 +32,7 @@ export const RegisterClientPage = () => {
 				client.direccion,
 			].includes("")
 		) {
-			Swal.fire({
-				icon: "error",
-				title: "Error",
-				text: "Todos los campos deben ser llenados",
-			});
+			swal("Todos los campos deben ser llenados", "", "error");
 			return;
 		}
 		registerClient(client);
