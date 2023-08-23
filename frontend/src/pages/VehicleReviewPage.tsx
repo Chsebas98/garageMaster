@@ -228,7 +228,6 @@ export const VehicleReviewPage = () => {
 			console.error(error);
 		}
 	};
-	//console.log(searchResultVehicle.attributes.clientes.data[0].attributes.correo);
 
 	return (
 		<div className="container mt-5">
