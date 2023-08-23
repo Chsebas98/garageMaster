@@ -4,7 +4,7 @@ import { VehicleInformation } from "./VehicleInformation";
 
 export const SearchVehicle = () => {
   const [searchPlate, setSearchPlate] = useState<string>("");
-  const { searchForPlate, searchResultVehicle } = useVehicle();
+  const { searchForPlate, searchResultVehicle, listReviewsVehicle } = useVehicle();
 
   const handleSearchSubmit = (event:FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -13,6 +13,7 @@ export const SearchVehicle = () => {
       return
     }
     searchForPlate(searchPlate);
+    listReviewsVehicle(searchPlate);
     setSearchPlate("");
   }
   return (

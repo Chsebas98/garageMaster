@@ -2,6 +2,8 @@ import { ReactNode, useEffect, useState } from "react";
 import { VehicleContext } from "./VehicleContext";
 import { axiosClient } from "../../apis";
 import {
+  ListVehicleReview,
+  ListVehicleReviewDatum,
   RegisterVehicle,
   RegisterVehicleReview,
   VehicleResponse,
@@ -23,6 +25,10 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
   >([]);
   const [searchResultVehicle, setsearchResultVehicle] =
     useState<VehicleWithClientsDatum>({} as VehicleWithClientsDatum);
+
+  const [vehicleHistory, setVehicleHistory] = useState<
+    ListVehicleReviewDatum[]
+  >([]);
   const navigate = useNavigate();
   const { tokenApi } = useAuth();
 
@@ -75,10 +81,10 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     detalles_extra,
     precio,
     vehiculos,
-    users_permissions_users
+    users_permissions_users,
   }: RegisterVehicleReview): Promise<void> => {
     console.log(vehiculos, users_permissions_users);
-    
+
     try {
       await axiosClient.post<RegisterVehicleReview>(
         "/api/revisions",
@@ -92,7 +98,7 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
             detalles_extra,
             precio,
             vehiculos,
-            users_permissions_users
+            users_permissions_users,
           },
         },
         {
@@ -120,9 +126,24 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     }
   };
 
+  const getReviewVehicle = async (): Promise<void> => {
+    try {
+      const { data } = await axiosClient.get<ListVehicleReview>(
+        "/api/revisions?populate=*",
+        {
+          headers: { Authorization: `Bearer ${tokenApi}` },
+        }
+      );
+      setVehicleHistory(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (tokenApi) {
       getVehicleInformationWithClients();
+      getReviewVehicle();
     }
   }, [tokenApi]);
 
@@ -133,6 +154,14 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     setsearchResultVehicle(informationVehicle as VehicleWithClientsDatum);
   };
 
+  const listReviewsVehicle = (plate: string) => {
+    const listReviews = vehicleHistory.filter(
+      (list) => list?.attributes.vehiculos.data[0]?.attributes.placa === plate
+    );
+    setVehicleHistory(listReviews);
+
+  };
+
   return (
     <VehicleContext.Provider
       value={{
@@ -140,6 +169,8 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
         registerVehicleReview,
         searchForPlate,
         searchResultVehicle,
+        listReviewsVehicle,
+        vehicleHistory
       }}
     >
       {children}
