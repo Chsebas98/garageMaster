@@ -58,7 +58,6 @@ export const VehicleReviewPage = () => {
 			setValorNivel(6);
 		}
 	};
-	console.log(reviewVehicle);
 	
 	const services = [
 		{ value: "1", label: "Revisión de motor" },
@@ -217,14 +216,14 @@ export const VehicleReviewPage = () => {
 			searchResultVehicle.attributes.clientes.data[0].attributes.correo;
 
 		try {
-			/*await emailjs.send(serviceId, templateId, {
+			await emailjs.send(serviceId, templateId, {
 				to_name,
 				user_email,
 				parts_replaced: reviewVehicle.peizas_cambiadas,
 				extra: reviewVehicle.extras,
 				details_extra: reviewVehicle.detalles_extra,
 				message: message.current?.value,
-			});*/
+			});
 			
 			registerVehicleReview(reviewVehicle);
 			swal("Email y registro enviado correctamente!", "", "success");

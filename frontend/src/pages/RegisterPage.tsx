@@ -95,10 +95,9 @@ export const RegisterPage = () => {
 			<div className="panels-container">
 				<div className="panel left-panel">
 					<div className="content">
-						<h3>One of us ?</h3>
+						<h3>¿ Ya tienes cuenta ?</h3>
 						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-							laboriosam ad deleniti.
+							Ingresa con tus credenciales
 						</p>
 						<Link to="/login" className="btn-login transparent">
 							Login
