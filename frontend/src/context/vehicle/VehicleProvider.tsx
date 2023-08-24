@@ -29,7 +29,9 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     ListVehicleReviewDatum[]
   >([]);
 
-  const [historyVehicle, setHistoryVehicle] = useState<ListVehicleReviewDatum[]>([]);
+  const [historyVehicle, setHistoryVehicle] = useState<
+    ListVehicleReviewDatum[]
+  >([]);
   const navigate = useNavigate();
   const { tokenApi } = useAuth();
 
@@ -66,8 +68,13 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
         },
         { headers: { Authorization: `Bearer ${tokenApi}` } }
       );
-      swal("Vehiculo registrado!", "", "success");
-      navigate("/home");
+      const res = await swal("Vehiculo registrado!", "", "success");
+      if(res) {
+        window.location.reload();
+        navigate("/home");
+      }
+      window.location.href = "/home";
+      
     } catch (error) {
       console.error(error);
     }
@@ -84,8 +91,6 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     vehiculos,
     users_permissions_users,
   }: RegisterVehicleReview): Promise<void> => {
-    console.log(vehiculos, users_permissions_users);
-
     try {
       await axiosClient.post<RegisterVehicleReview>(
         "/api/revisions",
@@ -140,13 +145,14 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
       console.error(error);
     }
   };
+  console.log(vehicleHistory);
+  
 
   const listReviewsVehicle = (plate: string) => {
     const listReviews = vehicleHistory.filter(
-      (list) => list?.attributes.vehiculos.data[0]?.attributes.placa === plate
+      (list) => list?.attributes.vehiculos.data[0]?.attributes.placa.includes(plate)
     );
     setHistoryVehicle(listReviews);
-
   };
 
   useEffect(() => {
@@ -163,8 +169,6 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
     setsearchResultVehicle(informationVehicle as VehicleWithClientsDatum);
   };
 
-  
-
   return (
     <VehicleContext.Provider
       value={{
@@ -174,7 +178,7 @@ export const VehicleProvider = ({ children }: VehicleProviderProps) => {
         searchResultVehicle,
         listReviewsVehicle,
         vehicleHistory,
-        historyVehicle
+        historyVehicle,
       }}
     >
       {children}

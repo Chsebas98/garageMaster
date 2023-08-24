@@ -37,8 +37,12 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
         },
         { headers: { Authorization: `Bearer ${tokenApi}` } }
       );
-      swal("Cliente registrado!", "", "success");
-      navigate("/home");
+      const res = await swal("Cliente registrado!", "", "success");
+      if(res) {
+        window.location.reload();
+        navigate("/home");
+      }
+      window.location.href = "/home";
     } catch (error) {
       console.error(error);
     }

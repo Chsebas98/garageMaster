@@ -3,7 +3,6 @@ import { useVehicle } from "../hooks/useVehicle";
 
 export const VehicleHistoryPage = () => {
   const { historyVehicle, searchResultVehicle } = useVehicle();
-console.log(historyVehicle);
 
   return (
     <div className="container mt-5">
