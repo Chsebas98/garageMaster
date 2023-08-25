@@ -5,7 +5,6 @@ interface Props {
 }
 
 export const VehicleInformation = ({ searchResultVehicle }: Props) => {
-
   return (
     <>
       <div className="row g-4">
@@ -116,7 +115,7 @@ export const VehicleInformation = ({ searchResultVehicle }: Props) => {
             type="text"
             id="inputPassword6"
             className="form-control"
-            defaultValue={`${searchResultVehicle.attributes.clientes.data[0].attributes.nombre} ${searchResultVehicle.attributes.clientes.data[0].attributes.apellido}`}
+            value={`${searchResultVehicle.attributes.clientes.data[0].attributes.nombre} ${searchResultVehicle.attributes.clientes.data[0].attributes.apellido}`}
             disabled
           />
         </div>
