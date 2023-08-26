@@ -1,27 +1,12 @@
-export const VehicleInformation = () => {
+import { VehicleWithClientsDatum } from "../interfaces/vehicle";
+
+interface Props {
+  searchResultVehicle: VehicleWithClientsDatum;
+}
+
+export const VehicleInformation = ({ searchResultVehicle }: Props) => {
   return (
     <>
-      <form className="mb-4">
-        <div className="row g-3 align-items-center">
-          <div className="col-auto">
-            <label htmlFor="inputPassword6" className="col-form-label">
-              Búsqueda por placa
-            </label>
-          </div>
-          <div className="col-auto">
-            <input
-              type="password"
-              id="inputPassword6"
-              className="form-control"
-            />
-          </div>
-          <div className="col-auto">
-            <button className="btn btn-primary" type="submit">
-              Buscar
-            </button>
-          </div>
-        </div>
-      </form>
       <div className="row g-4">
         <h3>Información del vehículo</h3>
         <div className="col-md-3 mb-3">
@@ -34,6 +19,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.placa}
             disabled
           />
         </div>
@@ -47,6 +33,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.anio}
             disabled
           />
         </div>
@@ -62,6 +49,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.kilometraje}
             disabled
           />
         </div>
@@ -75,6 +63,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.color}
             disabled
           />
         </div>
@@ -90,6 +79,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.marca}
             disabled
           />
         </div>
@@ -103,6 +93,7 @@ export const VehicleInformation = () => {
             type="text"
             id="inputPassword6"
             className="form-control"
+            value={searchResultVehicle.attributes.combustible}
             disabled
           />
         </div>
@@ -112,15 +103,21 @@ export const VehicleInformation = () => {
           <span>Modelo</span>
         </div>
         <div className="col-auto">
-          <p>lslsl</p>
+          <p>{searchResultVehicle.attributes.modelo}</p>
         </div>
       </div>
       <div className="row">
         <div className="col-auto">
-          <span>Extras</span>
+          <span>Dueño</span>
         </div>
         <div className="col-auto">
-          <p>Sin novedad</p>
+          <input
+            type="text"
+            id="inputPassword6"
+            className="form-control"
+            value={`${searchResultVehicle.attributes.clientes.data[0].attributes.nombre} ${searchResultVehicle.attributes.clientes.data[0].attributes.apellido}`}
+            disabled
+          />
         </div>
       </div>
     </>

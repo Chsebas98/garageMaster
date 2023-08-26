@@ -1,5 +1,6 @@
 export interface UserRegister {
-  username: string;
-  email: string;
-  password: string;
+	username: string;
+	email: string;
+	password: string;
+	nivel: string;
 }

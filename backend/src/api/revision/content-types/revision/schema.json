@@ -38,10 +38,10 @@
       "relation": "oneToMany",
       "target": "api::vehiculo.vehiculo"
     },
-    "mecanicos": {
+    "users_permissions_users": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::mecanico.mecanico"
+      "target": "plugin::users-permissions.user"
     }
   }
 }
