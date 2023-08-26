@@ -108,7 +108,7 @@ export const VehicleReviewPage = () => {
         ...reviewVehicle,
         detalles_revision: "Importe por alineación y balanceo",
         tiempo_reparacion: "1 hora",
-        peizas_cambiadas: "0",
+        peizas_cambiadas: "4",
         extras: "10",
         detalles_extra: "Alineación y balanceo de neumáticos",
         precio: 15,
@@ -214,10 +214,12 @@ export const VehicleReviewPage = () => {
     const user_email =
       searchResultVehicle.attributes.clientes.data[0].attributes.correo;
 
-      if ([reviewVehicle.detalles_revision, reviewVehicle.fecha_salida].includes("")) {
-        swal("Todos los campos deben ser llenados", "", "error");
-        return;
-      }
+    if (
+      [reviewVehicle.detalles_revision, reviewVehicle.fecha_salida].includes("")
+    ) {
+      swal("Todos los campos deben ser llenados", "", "error");
+      return;
+    }
 
     try {
       await emailjs.send(serviceId, templateId, {
@@ -230,8 +232,12 @@ export const VehicleReviewPage = () => {
       });
 
       registerVehicleReview(reviewVehicle);
-      const res = await swal("Email y registro enviado correctamente!", "", "success");
-      if(res) {
+      const res = await swal(
+        "Email y registro enviado correctamente!",
+        "",
+        "success"
+      );
+      if (res) {
         window.location.reload();
       }
     } catch (error) {
@@ -258,6 +264,14 @@ export const VehicleReviewPage = () => {
         </div>
         <div className="row mb-3">
           <div className="col-md-4">
+            <span className="fw-bold">Título de revisión</span>
+          </div>
+          <div className="col-md-8">
+            <input type="text" id="inputPassword6" className="form-control" />
+          </div>
+        </div>
+        <div className="row mb-3">
+          <div className="col-md-4">
             <span className="fw-bold">Fecha de ingreso</span>
           </div>
           <div className="col-md-8">
@@ -266,15 +280,6 @@ export const VehicleReviewPage = () => {
             ) : (
               <p></p>
             )}
-          </div>
-        </div>
-        
-        <div className="row mb-3">
-          <div className="col-md-4">
-            <span className="fw-bold">Título de revisión</span>
-          </div>
-          <div className="col-md-8">
-            <input type="text" id="inputPassword6" className="form-control" />
           </div>
         </div>
         <form onSubmit={handleSendEmail}>
