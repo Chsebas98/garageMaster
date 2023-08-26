@@ -1,10 +1,24 @@
 import logo from "../assets/logo.png";
+import { useAuth } from "../hooks/useAuth";
 import "../styles/Start.css";
 
 export const Start = () => {
+	const { tokenApi } = useAuth();
 	return (
 		<>
-			<section className="mu">{/* <button href=""></button> */}</section>
+			{tokenApi ? (
+				<section className="mu">
+					<button className="btn btn-download">
+						<a
+							href="/GM%20Manual%20de%20Usuario.pdf"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							Descargar Manual de Usuario
+						</a>
+					</button>
+				</section>
+			) : null}
 			<section className="home">
 				<div className="home-text">
 					<h1>Garage Master</h1>
