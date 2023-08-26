@@ -5,6 +5,7 @@ import { axiosClient } from "../../apis";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { useAuth } from "../../hooks/useAuth";
+import axios from "axios";
 
 interface ClientProviderProps {
   children: ReactNode;
@@ -44,7 +45,14 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
       }
       window.location.href = "/home";
     } catch (error) {
-      console.error(error);
+      if (axios.isAxiosError(error)) {
+        //alert(error.response?.data.error.message);
+        swal(
+          "Ya existe un cliente registrado con ese correo electrónico!",
+          "",
+          "error"
+        );
+      }
     }
   };
 

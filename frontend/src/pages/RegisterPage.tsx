@@ -46,7 +46,7 @@ export const RegisterPage = () => {
 							<i className="fas fa-user"></i>
 							<input
 								type="text"
-								placeholder="Username"
+								placeholder="Nombre de usuario"
 								name="username"
 								onChange={handleRegisterChange}
 							/>
@@ -80,7 +80,7 @@ export const RegisterPage = () => {
 							<i className="fas fa-lock"></i>
 							<input
 								type="password"
-								placeholder="Password"
+								placeholder="Contraseña"
 								name="password"
 								onChange={handleRegisterChange}
 							/>

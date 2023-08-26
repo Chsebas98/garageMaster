@@ -214,6 +214,11 @@ export const VehicleReviewPage = () => {
     const user_email =
       searchResultVehicle.attributes.clientes.data[0].attributes.correo;
 
+      if ([reviewVehicle.detalles_revision, reviewVehicle.fecha_salida].includes("")) {
+        swal("Todos los campos deben ser llenados", "", "error");
+        return;
+      }
+
     try {
       await emailjs.send(serviceId, templateId, {
         to_name,
@@ -263,18 +268,7 @@ export const VehicleReviewPage = () => {
             )}
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col-md-4">
-            <span className="fw-bold">Extras</span>
-          </div>
-          <div className="col-md-8">
-            <textarea
-              id="inputPassword6"
-              className="form-control"
-              placeholder="Motor"
-            />
-          </div>
-        </div>
+        
         <div className="row mb-3">
           <div className="col-md-4">
             <span className="fw-bold">Título de revisión</span>

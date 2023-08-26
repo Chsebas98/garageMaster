@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         //alert(error.response?.data.error.message);
-        swal(`${error.response?.data.error.message}!`, "", "error");
+        swal("El correo electrónico o el nombre de usuario ya están ocupados!", "", "error");
       }
     }
   };

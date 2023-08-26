@@ -4,6 +4,7 @@ import "../styles/Login.css";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { UserLogin } from "../interfaces/login";
 import { useAuth } from "../hooks/useAuth";
+import swal from "sweetalert";
 
 export const LoginPage = () => {
   const [userLogin, setUserLOgin] = useState<UserLogin>({
@@ -24,7 +25,7 @@ export const LoginPage = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if ([userLogin.identifier, userLogin.password].includes("")) {
-      alert("Todos los campos son obligatorios");
+      swal("Todos los campos deben ser llenados", "", "error");
       return;
     }
     login(userLogin);
