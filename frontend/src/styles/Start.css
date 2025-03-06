@@ -20,7 +20,25 @@
     width: 100%;
     height: 100%;
 }
+.mu {
+    background-color: #D8441F;
+    color: #fff;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1rem;
+}
+.mu button{
+    height: 100%;
+}
+.mu a {
+    color: #fff;
+    text-decoration: none;
+}
+.mu button :hover{
+    background-color: #7f2812;
 
+}
 @media (max-width: 670px) {
     .home-image img {
        display: none;
